@@ -3,10 +3,10 @@ import { HiCode, HiCube, HiDatabase, HiMail, HiBriefcase } from "react-icons/hi"
 
 export const config = {
     developer: {
-        name: "Huzaif",
+        name: "Ashon",
     },
     social: {
-        github: "huzaifahmedz",
+        github: "ashonbaiju",
         discord: "#"
     },
     NAV_ITEMS: [
@@ -15,53 +15,89 @@ export const config = {
     ],
     recentTracks: true, // Enable/disable Spotify recent tracks
     projects: [
-        {
-            id: 1,
-            title: "AI-Powered Code Review Assistant",
-            description: "An intelligent code review platform that uses machine learning to analyze pull requests, detect bugs, suggest optimizations, and enforce coding standards. Features real-time collaboration, automated testing integration, and comprehensive security scanning.",
-            image: "/projects/project-1.webp",
-            technologies: ["Python", "TensorFlow", "React", "FastAPI", "PostgreSQL", "Docker"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 2,
-            title: "Real-time Collaborative Whiteboard",
-            description: "A next-generation collaborative whiteboard platform with infinite canvas, real-time synchronization, and advanced drawing tools. Supports video conferencing, screen sharing, and export to multiple formats. Built for remote teams and educators.",
-            image: "/projects/project-2.webp",
-            technologies: ["TypeScript", "WebRTC", "Socket.io", "Canvas API", "Node.js", "Redis"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 3,
-            title: "Blockchain Voting System",
-            description: "A secure, transparent, and decentralized voting platform built on Ethereum. Features smart contract-based voting, anonymous ballots, real-time result tracking, and immutable audit trails. Ensures election integrity through cryptographic verification.",
-            image: "/projects/project-3.webp",
-            technologies: ["Solidity", "Web3.js", "React", "Ethereum", "IPFS", "MetaMask"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 4,
-            title: "Cloud Infrastructure Dashboard",
-            description: "A comprehensive cloud management platform for monitoring, managing, and optimizing multi-cloud infrastructure. Features real-time metrics, cost analysis, automated scaling, and security compliance monitoring across AWS, Azure, and GCP.",
-            image: "/projects/project-4.webp",
-            technologies: ["Go", "Kubernetes", "Grafana", "Prometheus", "Terraform", "React"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 5,
-            title: "Neural Network Visualizer",
-            description: "An interactive web application for visualizing, training, and experimenting with neural networks. Features drag-and-drop architecture builder, real-time training visualization, model comparison tools, and export capabilities for production deployment.",
-            image: "/projects/project-5.webp",
-            technologies: ["Python", "TensorFlow.js", "D3.js", "Next.js", "WebGL", "TypeScript"],
-            github: "#",
-            demo: "#"
-        }
- 
+  {
+    id: 1,
+    title: "My Resume – Minimal Portfolio",
+    description:
+      "A clean one-page resume website built to showcase my skills, education, and projects with a responsive layout.",
+    image: "https://github.com/ashonbaiju/my-resume/blob/main/assets/images/kiridam.jpg?raw=true",
+    technologies: ["HTML5", "CSS3", "JavaScript"],
+    github: "https://github.com/ashonbaiju/my-resume",
+    demo: "#", // update later if you host it
+  },
+  {
+    id: 2,
+    title: "Personal Portfolio – v4 (Camcall / Dev Portfolio)",
+    description:
+      "A modern developer portfolio built on top of Huzaif Ahmed's template, customized with my own tech stack, animations, and branding.",
+    image: "https://play-lh.googleusercontent.com/7CEb0nQ0LrDv1DqqS5vVyMJ0po5spOiIyjjKoN-Kq5LABNzrtvAznj6y5QIBzRwAyGbI",
+    technologies: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    github: "https://github.com/ashonbaiju", // or your fork
+    demo: "#", // your deployed link (Vercel / Netlify)
+  },
+  {
+    id: 3,
+    title: "OldSyllabus ",
+    description:
+      "A concept webh a clean, mobile-first UI.",
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAzUlEQVR4AczRIRCDIBQGYOuyzbxgNdLsxWaiW4kWOz2Y7cVkMxMsZpKVRiTA3b/b7bY9mPa99t93/LyD7A+mlO2ltYKzc2lm472Wxa/kg0Vw1nlgSrlccIzPRjYZqFuMK+bq3b5himzAmn8COwKnaFxFUgdFksASFVlT0xt5hKOX33AgeQuoa2TYrrGhJzVYhJIuOGOM8HADWSAYahzmTuJOewqbFFlsdf4i4aCSX9l9UFJ0YtSwa5bOoLRxwRm9dtnJMN7LnleP0TydAgB5cmlbClPjvgAAAABJRU5ErkJggg==",
+    technologies: ["React", "Tailwind CSS", "Firebase"],
+    github: "#", // add when repo is ready
+    demo: "#",
+  },
+  {
+    id: 4,
+    title: "AdFlow – Ad Reward Concept App",
+    description:
+      "A concept model where users watch ads 24/7 and earn a share of the ad revenue, with a simple UI focused on user earnings.",
+    image: "/projects/adflow.webp",
+    technologies: ["Flutter", "Firebase", "Figma"],
+    github: "#",
+    demo: "#",
+  },
+  {
+    id: 5,
+    title: "Resume Builder Web App",
+    description:
+      "A resume builder that supports ATS-friendly templates for tech and non-tech users, with options to download as PDF and DOCX.",
+    image: "/projects/resume-builder.webp",
+    technologies: ["React", "Tailwind CSS", "Node.js"],
+    github: "#",
+    demo: "#",
+  },
+  {
+    id: 6,
+    title: "Image Hex Converter",
+    description:
+      "A developer tool that converts images to hexadecimal format for use in low-level graphics, embedded systems, or styling experiments.",
+    image: "/projects/image-hex-converter.webp",
+    technologies: ["Python", "Pillow", "CLI"],
+    github: "https://github.com/ashonbaiju/Image-Hex-Converter", // if repo exists / when you create it
+    demo: "#",
+  },
+  {
+    id: 7,
+    title: "Voice FX – Termux Voice Changer",
+    description:
+      "A Termux-based experiment that processes microphone input and applies real-time voice effects, aiming to change the voice (e.g., to a female tone).",
+    image: "/projects/voice-fx.webp",
+    technologies: ["Termux", "Python", "FFmpeg"],
+    github: "#",
+    demo: "#",
+  },
+  {
+    id: 8,
+    title: "Branding & Graphics – Julebi, OldSyllabus & VVS.EDU",
+    description:
+      "Logo design, posters, and marketing creatives for brands like Julebi, OldSyllabus, and VVS.EDU, including social media assets and ad graphics.",
+    image: "/projects/branding-collection.webp",
+    technologies: ["Adobe Photoshop", "Illustrator", "Figma", "Canva"],
+    github: "#",
+    demo: "#",
+  },
     ],
+
+
     skills: [
         {
             title: "Frontend",
@@ -138,14 +174,14 @@ export const config = {
         {
             icon: <FaGithub className="w-5 h-5" />,
             label: "GitHub",
-            value: "@huzaifahmedz",
-            link: `https://github.com/huzaifahmedz`
+            value: "@ashonbaiju",
+            link: `https://github.com/ashonbaiju`
         },
         {
             icon: <HiMail className="w-5 h-5" />,
             label: "Email",
-            value: "dev.huzaif@gmail.com",
-            link: "mailto:dev.huzaif@gmail.com"
+            value: "ashonbaiju123@gmail.com",
+            link: "mailto:ashonbaiju123@gmail.com"
         },
         {
             icon: <FaMapPin className="w-5 h-5" />,

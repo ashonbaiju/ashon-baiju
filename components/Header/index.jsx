@@ -74,7 +74,7 @@ const Logo = ({ isMobile = false }) => (
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
             >
-                <span className="hidden sm:inline">{config.developer.name} | Devxora</span>
+                <span className="hidden sm:inline">{config.developer.name} | developer</span>
                 {/* <span className="sm:hidden">{config.developer.name}</span> */}
             </motion.span>
         </Link>
@@ -110,7 +110,7 @@ const ContactButton = ({ isMobile = false, onLinkClick }) => (
         transition={{ delay: isMobile ? 0.5 : 0.4, duration: 0.5 }}
         onClick={onLinkClick}
     >
-        <Link href={"https://github.com/huzaifahmedz/Huzaif-Ahmed-portfolio-fourth"} target='_blank' className={isMobile ? 'w-full' : ''}>
+        <Link href={"https://github.com/ashonbaiju/"} target='_blank' className={isMobile ? 'w-full' : ''}>
             <Button className={`${isMobile ? 'w-full' : ''} rounded-2xl font-semibold bg-white text-gray-900 hover:bg-gray-200 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3`}>
                 <span className="hidden sm:inline">Repo Inside!</span>
                 <span className="sm:hidden">Template</span>

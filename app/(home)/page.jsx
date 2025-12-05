@@ -1,23 +1,37 @@
-"use client"
-import React from 'react'
-import HeroSection from './components/HeroSection'
-import GithubProjects from './components/GithubProjects'
-import SkillsSection from './components/Skills'
-import ExperienceSection from './components/Experience'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { HiArrowRight } from 'react-icons/hi'
+"use client";
+import React from "react";
+import HeroSection from "./components/HeroSection";
+import GithubProjects from "./components/GithubProjects";
+import ExperienceSection from "./components/ExperienceSection";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { HiArrowRight } from "react-icons/hi";
+import ProjectsTeaserSection from "./components/ProjectsTeaserSection";
+import SkillsShowcase from "./components/SkillsShowcase"; // ✔ Tech Stack
+import CapabilitiesSection from "./components/CapabilitiesSection";
 
 const Home = () => {
   return (
     <div>
+      {/* 1. Hero */}
       <HeroSection />
+      <CapabilitiesSection />
+      {/* 2. Tech Stack */}
+      <SkillsShowcase />
+
+      {/* 3. Work Experience */}
       <ExperienceSection />
+
+      <ProjectsTeaserSection />
+
+      {/* 4. Open Source */}
       <GithubProjects />
-      <SkillsSection />
+
+      {/* 5. Selected Work & Experiments */}
       
-      {/* Contact Button Section */}
-      <section className="py-16 pb-24">
+
+      {/* 6. Get in Touch Button */}
+      <section className="py-10 pb-6">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -40,7 +54,7 @@ const Home = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

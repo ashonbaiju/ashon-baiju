@@ -7,7 +7,6 @@ import { config } from '@/config';
 import Link from 'next/link';
 import { BackgroundPresets } from '@/components/ui/background-effects';
 import { motion } from 'framer-motion';
-import SkillsShowcase from './SkillsShowcase';
 
 const containerAnimation = {
   hidden: { opacity: 0 },
@@ -79,7 +78,7 @@ const HeroSection = () => {
                 variants={textAnimation}
                 className="block text-white/60 text-2xl md:text-4xl"
               >
-I build web that builds brands.              </motion.span>
+Developer | Designer               </motion.span>
             </motion.h1>
           </div>
 
@@ -87,8 +86,7 @@ I build web that builds brands.              </motion.span>
             variants={itemAnimation}
             className="text-base sm:text-md text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-           Full-stack builder creating digital experiences that respect humans and scale with clarity. Accessibility is my north star.
-          </motion.p>
+Full-stack developer & designer crafting digital experiences that feel intuitive, fast, and thoughtfully built.          </motion.p>
 
           <motion.div
             variants={itemAnimation}
@@ -117,7 +115,7 @@ I build web that builds brands.              </motion.span>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
           </motion.div>
         </motion.div>
-        <SkillsShowcase />
+        
       </div>
     </section>
   );

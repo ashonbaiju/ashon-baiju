@@ -9,15 +9,42 @@ import { config } from '@/config';
 
 const ContactPage = () => {
     const handleSubmit = async (formData) => {
-        try {
-            console.log('Form submitted:', formData);
+  try {
+    console.log("Form submitted:", formData);
 
-            toast.success("Thank you for your message. I'll get back to you soon.");
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            toast.error("Something went wrong. Please try again later.");
-        }
-    };
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      }),
+    });
+
+    let json = null;
+    try {
+      json = await res.json();
+    } catch (e) {
+      console.error("Failed to parse /api/contact response as JSON", e);
+    }
+
+    if (!res.ok) {
+      console.error("Contact API error:", res.status, json);
+      toast.error(
+        json?.error || "Failed to send message. Please try again later."
+      );
+      return;
+    }
+
+    console.log("Contact API success:", json);
+    toast.success("Thank you for your message. I'll get back to you soon.");
+  } catch (error) {
+    console.error("Error submitting form (frontend):", error);
+    toast.error("Something went wrong. Please try again later.");
+  }
+};
+
 
     const contactInfo = config.contactInfo;
 
