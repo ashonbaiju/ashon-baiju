@@ -1,15 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring, animate } from "framer-motion";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  animate,
+  useTransform,
+} from "framer-motion";
 
 const CustomCursor = () => {
+  // 1. Raw Coordinates (The target where the cursor wants to go)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const cursorOpacity = useMotionValue(0);
 
   const [isMobile, setIsMobile] = useState(false);
-  const [isIdle, setIsIdle] = useState(false);
+  
+  // Refs to track velocity for the "Throw"
+  const velocityInfo = useRef({
+    prevX: 0,
+    prevY: 0,
+    lastX: 0,
+    lastY: 0,
+    lastTime: 0,
+    prevTime: 0,
+  });
 
   // Detect mobile
   useEffect(() => {
@@ -17,144 +33,129 @@ const CustomCursor = () => {
       if (typeof window === "undefined") return;
       setIsMobile(window.innerWidth < 768);
     };
-
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Sizes: bigger on mobile
-  const circleSize = isMobile ? 44 : 32;
-  const glowSize = isMobile ? 150 : 110;
+  // 🔹 CONFIGURATION
+  const circleSize = isMobile ? 30 : 20; // Slightly smaller dot for precision
+  const glowSize = isMobile ? 120 : 100;
   const glowRadius = glowSize / 2;
 
-  // Springs (mainly for desktop)
-  const smoothX = useSpring(cursorX, {
-    stiffness: isMobile ? 500 : 320,
-    damping: isMobile ? 40 : 30,
-    mass: isMobile ? 0.2 : 0.35,
-  });
+  // 🔹 PHYSICS ENGINE (Dual Spring System)
+  
+  // 1. The Dot (Snappy, responsive)
+  const dotSpringConfig = { stiffness: 500, damping: 35, mass: 0.5 };
+  const smoothX = useSpring(cursorX, dotSpringConfig);
+  const smoothY = useSpring(cursorY, dotSpringConfig);
 
-  const smoothY = useSpring(cursorY, {
-    stiffness: isMobile ? 500 : 320,
-    damping: isMobile ? 40 : 30,
-    mass: isMobile ? 0.2 : 0.35,
-  });
+  // 2. The Glow (Fluid, heavy, "watery" feel)
+  const glowSpringConfig = { stiffness: 150, damping: 20, mass: 1.5 };
+  const glowX = useSpring(cursorX, glowSpringConfig);
+  const glowY = useSpring(cursorY, glowSpringConfig);
 
-  const smoothOpacity = useSpring(cursorOpacity, {
-    stiffness: 320,
-    damping: 24,
-  });
+  const smoothOpacity = useSpring(cursorOpacity, { stiffness: 300, damping: 20 });
+
+  // 🔹 GLOWING PULSE ANIMATION (Breathing)
+  const glowVariants = {
+    idle: {
+      scale: 1,
+      opacity: 0.5,
+    },
+    breathing: {
+      scale: [1, 1.2, 1], // Pulse size
+      opacity: [0.5, 0.8, 0.5], // Pulse brightness
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    let lastX = window.innerWidth / 2;
-    let lastY = window.innerHeight / 2;
-    let prevX = lastX;
-    let prevY = lastY;
-
-    let lastTime = performance.now();
-    let prevTime = lastTime;
-
     let lastScrollY = window.scrollY;
-    let idleTimeout = null;
 
+    // Helper: Keep cursor inside window
     const clampToViewport = (x, y) => {
-      const margin = 4; // small safety
-      const maxX = window.innerWidth - glowRadius - margin;
-      const minX = glowRadius + margin;
-      const maxY = window.innerHeight - glowRadius - margin;
-      const minY = glowRadius + margin;
-
-      const clampedX = Math.min(Math.max(x, minX), maxX);
-      const clampedY = Math.min(Math.max(y, minY), maxY);
-
-      return { x: clampedX, y: clampedY };
+      const margin = 10;
+      const maxX = window.innerWidth - margin;
+      const minX = margin;
+      const maxY = window.innerHeight - margin;
+      const minY = margin;
+      return {
+        x: Math.min(Math.max(x, minX), maxX),
+        y: Math.min(Math.max(y, minY), maxY),
+      };
     };
 
-    const setActive = () => {
-      setIsIdle(false);
-      if (idleTimeout) clearTimeout(idleTimeout);
-      idleTimeout = setTimeout(() => setIsIdle(true), 600);
-    };
-
+    // 1. MOVEMENT LOGIC
     const updatePosition = (x, y) => {
-      const { x: cx, y: cy } = clampToViewport(x, y);
-
-      prevX = lastX;
-      prevY = lastY;
-      prevTime = lastTime;
-
-      lastX = cx;
-      lastY = cy;
-      lastTime = performance.now();
-
-      cursorX.set(cx);
-      cursorY.set(cy);
-      cursorOpacity.set(1);
-      setActive();
-    };
-
-    const handlePointerMove = (e) => {
-      updatePosition(e.clientX, e.clientY);
-    };
-
-    const handleTouchMove = (e) => {
-      const t = e.touches && e.touches[0];
-      if (!t) return;
-      updatePosition(t.clientX, t.clientY);
-    };
-
-    const handlePointerLeave = () => {
-      cursorOpacity.set(0);
-    };
-
-    // Throw / inertia
-    const handlePointerUp = () => {
+      // Update velocity trackers
       const now = performance.now();
-      const dt = Math.max(now - prevTime, 16);
-      const vx = (lastX - prevX) / dt;
-      const vy = (lastY - prevY) / dt;
+      velocityInfo.current.prevX = velocityInfo.current.lastX;
+      velocityInfo.current.prevY = velocityInfo.current.lastY;
+      velocityInfo.current.prevTime = velocityInfo.current.lastTime;
+      
+      velocityInfo.current.lastX = x;
+      velocityInfo.current.lastY = y;
+      velocityInfo.current.lastTime = now;
 
-      const throwFactor = 200;
-
-      let targetX = lastX + vx * throwFactor;
-      let targetY = lastY + vy * throwFactor;
-
-      const clamped = clampToViewport(targetX, targetY);
-      targetX = clamped.x;
-      targetY = clamped.y;
-
-      animate(cursorX, targetX, {
-        type: "spring",
-        stiffness: 120,
-        damping: 18,
-      });
-
-      animate(cursorY, targetY, {
-        type: "spring",
-        stiffness: 120,
-        damping: 18,
-      });
-
+      // Set Motion Values
+      const clamped = clampToViewport(x, y);
+      cursorX.set(clamped.x);
+      cursorY.set(clamped.y);
       cursorOpacity.set(1);
-      setActive();
     };
 
-    // Scroll float
+    const handlePointerMove = (e) => updatePosition(e.clientX, e.clientY);
+    
+    const handleTouchMove = (e) => {
+      const t = e.touches[0];
+      if (t) updatePosition(t.clientX, t.clientY);
+    };
+
+    // 2. SCROLL LOGIC (Fluid Drag)
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
       const currentY = cursorY.get();
-      const moved = clampToViewport(lastX, currentY - delta * 0.6);
+      const currentX = cursorX.get();
 
-      cursorY.set(moved.y);
-      cursorOpacity.set(1);
-      setActive();
+      // "Drag" the cursor slightly with the scroll
+      const movedY = currentY - delta * 0.8; 
+      
+      const clamped = clampToViewport(currentX, movedY);
+      cursorY.set(clamped.y);
     };
+
+    // 3. THROW LOGIC (Inertia on release)
+    const handlePointerUp = () => {
+      const now = performance.now();
+      const dt = Math.max(now - velocityInfo.current.prevTime, 16);
+      
+      // Calculate velocity
+      const vx = (velocityInfo.current.lastX - velocityInfo.current.prevX) / dt;
+      const vy = (velocityInfo.current.lastY - velocityInfo.current.prevY) / dt;
+
+      const throwFactor = 150; // How far it throws
+      
+      let targetX = velocityInfo.current.lastX + vx * throwFactor;
+      let targetY = velocityInfo.current.lastY + vy * throwFactor;
+
+      const clamped = clampToViewport(targetX, targetY);
+
+      // Animate the MotionValue -> The Springs will automatically follow this animation smoothly
+      animate(cursorX, clamped.x, { type: "spring", stiffness: 80, damping: 15 });
+      animate(cursorY, clamped.y, { type: "spring", stiffness: 80, damping: 15 });
+    };
+
+    const handlePointerLeave = () => cursorOpacity.set(0);
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
@@ -168,23 +169,14 @@ const CustomCursor = () => {
       window.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("scroll", handleScroll);
-      if (idleTimeout) clearTimeout(idleTimeout);
     };
-  }, [cursorX, cursorY, cursorOpacity, glowRadius]);
-
-  // On mobile use raw motion values (no lag), on desktop use spring
-  const xValue = isMobile ? cursorX : smoothX;
-  const yValue = isMobile ? cursorY : smoothY;
-
-  const idleScale = isIdle ? 1.08 : 1;
+  }, [cursorX, cursorY, cursorOpacity]);
 
   const baseStyle = {
     position: "fixed",
     top: 0,
     left: 0,
     pointerEvents: "none",
-    x: xValue,
-    y: yValue,
     opacity: smoothOpacity,
     translateX: "-50%",
     translateY: "-50%",
@@ -192,21 +184,33 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Glow */}
+      {/* 🔹 THE GLOW (Fluid, Breathing, trails behind) */}
       <motion.div
-        className="z-[9997] rounded-full bg-white/20 blur-[40px]"
-        style={{ ...baseStyle, width: glowSize, height: glowSize }}
-        animate={{ scale: idleScale }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        variants={glowVariants}
+        animate="breathing"
+        style={{
+          ...baseStyle,
+          x: glowX, // Uses the "Heavy" spring
+          y: glowY,
+          width: glowSize,
+          height: glowSize,
+        }}
+        className="z-[9997] rounded-full bg-white blur-[40px] mix-blend-difference"
       />
 
-      {/* Main circle */}
-      <motion.div
-        className="z-[9999] rounded-full mix-blend-difference border border-white bg-white shadow-[0_0_40px_rgba(255,255,255,0.9)]"
-        style={{ ...baseStyle, width: circleSize, height: circleSize }}
-        animate={{ scale: idleScale }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
-      />
+      {/* 🔹 THE DOT (Snappy, Precise) */}
+      {!isMobile && (
+        <motion.div
+          style={{
+            ...baseStyle,
+            x: smoothX, // Uses the "Fast" spring
+            y: smoothY,
+            width: circleSize,
+            height: circleSize,
+          }}
+          className="z-[9999] rounded-full mix-blend-difference bg-white shadow-[0_0_20px_rgba(255,255,255,1)]"
+        />
+      )}
     </>
   );
 };
