@@ -1,17 +1,7 @@
 "use client";
 
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  animate,
-} from "framer-motion";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { motion, useMotionValue, useSpring, animate } from "framer-motion";
 
 const CustomCursor = () => {
   // 1. Motion Values
@@ -22,8 +12,7 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // 2. Refs
-  const isTouchingRef = useRef(false);
+  // Touch velocity for optional "throw"
   const velocityInfo = useRef({
     prevX: 0,
     prevY: 0,
@@ -32,7 +21,7 @@ const CustomCursor = () => {
     time: 0,
   });
 
-  // 3. Hydration + device check
+  // Hydration + mobile check
   useEffect(() => {
     setMounted(true);
 
@@ -44,7 +33,6 @@ const CustomCursor = () => {
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -52,13 +40,15 @@ const CustomCursor = () => {
   // 🔹 PHYSICS
   // ------------------------------------------------------------------
 
+  // Desktop: fast dot
   const dotConfig = { stiffness: 500, damping: 35, mass: 0.5 };
   const dotX = useSpring(cursorX, dotConfig);
   const dotY = useSpring(cursorY, dotConfig);
 
+  // Mobile: tight & sticky, Desktop: floaty
   const glowConfig = isMobile
-    ? { stiffness: 600, damping: 30, mass: 0.5 } // mobile: tight & sticky
-    : { stiffness: 150, damping: 20, mass: 1.5 }; // desktop: floaty
+    ? { stiffness: 700, damping: 35, mass: 0.5 } // very sticky on finger
+    : { stiffness: 140, damping: 22, mass: 1.5 }; // soft on desktop
 
   const glowX = useSpring(cursorX, glowConfig);
   const glowY = useSpring(cursorY, glowConfig);
@@ -69,12 +59,13 @@ const CustomCursor = () => {
   });
 
   // ------------------------------------------------------------------
-  // 🔹 CORE LOGIC (memoized)
+  // 🔹 CORE LOGIC
   // ------------------------------------------------------------------
 
   const updatePosition = useCallback(
     (x, y) => {
-      const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+      const now =
+        typeof performance !== "undefined" ? performance.now() : Date.now();
       const v = velocityInfo.current;
 
       v.prevX = v.lastX;
@@ -91,22 +82,23 @@ const CustomCursor = () => {
   );
 
   const triggerThrow = useCallback(() => {
-    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+    const now =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
     const v = velocityInfo.current;
 
-    // If finger stayed still too long, skip throw
-    if (now - v.time > 50) return;
+    // if finger stayed still, don't throw
+    if (now - v.time > 80) return;
 
     const dt = Math.max(now - v.time, 10);
     const vx = (v.lastX - v.prevX) / dt;
     const vy = (v.lastY - v.prevY) / dt;
 
-    const throwPower = isMobile ? 400 : 200;
+    const throwPower = isMobile ? 380 : 220;
 
     const targetX = v.lastX + vx * throwPower;
     const targetY = v.lastY + vy * throwPower;
 
-    const throwSpring = { type: "spring", stiffness: 50, damping: 20 };
+    const throwSpring = { type: "spring", stiffness: 55, damping: 20 };
 
     const maxX =
       typeof window !== "undefined" ? window.innerWidth : 1000;
@@ -132,47 +124,46 @@ const CustomCursor = () => {
   useEffect(() => {
     if (!mounted || typeof window === "undefined") return;
 
-    // ===== MOBILE =====
+    // ========== 📱 MOBILE ==========
     if (isMobile) {
+      const target = document; // more reliable than window for touchmove
+
       const onTouchStart = (e) => {
-        isTouchingRef.current = true;
         const t = e.touches[0];
         if (t) updatePosition(t.clientX, t.clientY);
       };
 
       const onTouchMove = (e) => {
+        // This should fire on every drag frame while you scroll
         const t = e.touches[0];
         if (t) updatePosition(t.clientX, t.clientY);
       };
 
       const onTouchEnd = () => {
-        isTouchingRef.current = false;
-        triggerThrow();
+        triggerThrow(); // optional inertia after lift
       };
 
       const onTouchCancel = () => {
-        isTouchingRef.current = false;
+        // fade out if cancelled
+        cursorOpacity.set(0);
       };
 
-      window.addEventListener("touchstart", onTouchStart, {
-        passive: true,
-      });
-      window.addEventListener("touchmove", onTouchMove, {
-        passive: true,
-      });
-      window.addEventListener("touchend", onTouchEnd);
-      window.addEventListener("touchcancel", onTouchCancel);
+      // Use passive: true to not block scroll, but still get coordinates
+      target.addEventListener("touchstart", onTouchStart, { passive: true });
+      target.addEventListener("touchmove", onTouchMove, { passive: true });
+      target.addEventListener("touchend", onTouchEnd);
+      target.addEventListener("touchcancel", onTouchCancel);
 
-      // No scroll listener on mobile: circle follows finger only
+      // No scroll listener: on mobile the circle ONLY follows your finger
       return () => {
-        window.removeEventListener("touchstart", onTouchStart);
-        window.removeEventListener("touchmove", onTouchMove);
-        window.removeEventListener("touchend", onTouchEnd);
-        window.removeEventListener("touchcancel", onTouchCancel);
+        target.removeEventListener("touchstart", onTouchStart);
+        target.removeEventListener("touchmove", onTouchMove);
+        target.removeEventListener("touchend", onTouchEnd);
+        target.removeEventListener("touchcancel", onTouchCancel);
       };
     }
 
-    // ===== DESKTOP =====
+    // ========== 💻 DESKTOP ==========
     let lastScrollY = window.scrollY;
 
     const onMouseMove = (e) => {
@@ -188,13 +179,12 @@ const CustomCursor = () => {
       const delta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
+      // slight scroll inertia on desktop only
       const currentY = cursorY.get();
       cursorY.set(currentY - delta * 0.8);
     };
 
-    window.addEventListener("mousemove", onMouseMove, {
-      passive: true,
-    });
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("mouseleave", onMouseLeave);
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -222,42 +212,60 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* 📱 MOBILE: Sticky Finger Ring */}
+      {/* 📱 MOBILE: fingertip ring with glow pulse */}
       {isMobile && (
         <motion.div
           animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.6, 0.8, 0.6],
+            scale: [0.9, 1.15, 0.9],        // glow up / down
+            opacity: [0.5, 0.9, 0.5],
+            boxShadow: [
+              "0 0 0px rgba(255,255,255,0.2)",
+              "0 0 22px rgba(255,255,255,0.6)",
+              "0 0 0px rgba(255,255,255,0.2)",
+            ],
           }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
           style={{
             ...baseStyle,
             x: glowX,
             y: glowY,
-            width: 80,
-            height: 80,
+            width: 70,
+            height: 70,
           }}
-          className="z-[9999] rounded-full border-2 border-white/30 bg-white/10 blur-[1px] mix-blend-difference shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+          className="z-[9999] rounded-full border-2 border-white/40 bg-white/5 mix-blend-difference"
         />
       )}
 
-      {/* 💻 DESKTOP: Dot + Ambient Glow */}
+      {/* 💻 DESKTOP: ambient glow + dot */}
       {!isMobile && (
         <>
           <motion.div
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.4, 0.6, 0.4],
+              opacity: [0.35, 0.7, 0.35],
+              boxShadow: [
+                "0 0 20px rgba(255,255,255,0.3)",
+                "0 0 40px rgba(255,255,255,0.7)",
+                "0 0 20px rgba(255,255,255,0.3)",
+              ],
             }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             style={{
               ...baseStyle,
               x: glowX,
               y: glowY,
-              width: 120,
-              height: 120,
+              width: 130,
+              height: 130,
             }}
-            className="z-[9997] rounded-full bg-white blur-[45px] mix-blend-difference"
+            className="z-[9997] rounded-full bg-white mix-blend-difference blur-[40px]"
           />
 
           <motion.div
@@ -268,7 +276,7 @@ const CustomCursor = () => {
               width: 16,
               height: 16,
             }}
-            className="z-[9999] rounded-full mix-blend-difference bg-white shadow-[0_0_10px_rgba(255,255,255,1)]"
+            className="z-[9999] rounded-full bg-white mix-blend-difference shadow-[0_0_14px_rgba(255,255,255,1)]"
           />
         </>
       )}
