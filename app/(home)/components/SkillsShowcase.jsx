@@ -3,80 +3,103 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { HiCode } from "react-icons/hi";
-import { FaReact, FaNodeJs, FaGithub, FaAws } from "react-icons/fa";
+import { HiCode, HiColorSwatch } from "react-icons/hi";
+import { FaReact, FaNodeJs, FaGithub, FaPython } from "react-icons/fa";
 import {
-  SiExpress,
-  SiMongodb,
+  SiFlutter,
+  SiCplusplus,
+  SiFirebase,
   SiTailwindcss,
+  SiAdobecreativecloud,
+  SiMysql,
   SiFigma,
-  SiGreensock,
-  SiThreedotjs,
-  SiJavascript,
-  SiMaterialdesign,
+  SiAdobepremierepro,
 } from "react-icons/si";
-import { TbBrandFramerMotion } from "react-icons/tb";
 
+// 🔹 CONFIGURATION: Your Specific Stack
+// Organized by importance (High Department) and Visual Weight
 const skills = [
+  // 1. MOBILE DEVELOPMENT (The Big Star - 2x2)
   {
-    name: "AWS",
-    icon: <FaAws className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 md:col-span-2 row-span-1",
+    name: "Flutter & Mobile",
+    icon: <SiFlutter className="w-8 h-8 sm:w-10 sm:h-10" />,
+    size: "col-span-2 row-span-2", 
+    color: "text-cyan-400",
+    description: "Cross-platform Development",
   },
+  // 2. WEB FRONTEND (The Wide Foundation - 2x1)
   {
     name: "React.js",
-    icon: <FaReact className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    icon: <FaReact className="w-6 h-6 sm:w-8 sm:h-8 animate-spin-slow" />,
+    size: "col-span-2 row-span-1",
+    color: "text-blue-400",
+    description: "Modern UI Engineering",
   },
-  {
-    name: "Express",
-    icon: <SiExpress className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
-  },
-  {
-    name: "MongoDB",
-    icon: <SiMongodb className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 sm:row-span-2 row-span-1",
-  },
+  // 3. BACKEND (The Tall Pillar - 1x2)
   {
     name: "Node.js",
-    icon: <FaNodeJs className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 md:col-span-2 row-span-1",
+    icon: <FaNodeJs className="w-6 h-6 sm:w-7 sm:h-7" />,
+    size: "col-span-1 row-span-2",
+    color: "text-green-500",
+    description: "Server Logic",
   },
+  // 4. CREATIVE SUITE (The Creative Pillar - 1x2)
+  // Merging Premiere/Ps/Ai into one "Creative" entry for impact
   {
-    name: "GitHub",
-    icon: <FaGithub className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    name: "Adobe Suite",
+    icon: <SiAdobecreativecloud className="w-6 h-6 sm:w-7 sm:h-7" />,
+    size: "col-span-1 row-span-2",
+    color: "text-purple-500",
+    description: "Video & Graphics",
   },
+  // 5. CORE PROGRAMMING (Standard Box)
+  {
+    name: "C++ / C",
+    icon: <SiCplusplus className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "col-span-1 row-span-1",
+    color: "text-blue-600",
+  },
+  // 6. CLOUD / DB (Standard Box)
+  {
+    name: "Firebase",
+    icon: <SiFirebase className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "col-span-1 row-span-1",
+    color: "text-yellow-400",
+  },
+  // 7. SCRIPTING / AI (Standard Box)
+  {
+    name: "Python",
+    icon: <FaPython className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "col-span-1 row-span-1",
+    color: "text-yellow-300",
+  },
+  // 8. UI STYLING (Standard Box)
   {
     name: "Tailwind",
     icon: <SiTailwindcss className="w-5 h-5 sm:w-6 sm:h-6" />,
     size: "col-span-1 row-span-1",
+    color: "text-cyan-300",
   },
+  // 9. DATABASE (Standard Box)
   {
-    name: "GSAP",
-    icon: <SiGreensock className="w-5 h-5 sm:w-6 sm:h-6" />,
+    name: "MySQL",
+    icon: <SiMysql className="w-5 h-5 sm:w-6 sm:h-6" />,
     size: "col-span-1 row-span-1",
+    color: "text-blue-300",
   },
-  {
-    name: "Framer Motion",
-    icon: <TbBrandFramerMotion className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
-  },
-  {
-    name: "Three.js",
-    icon: <SiThreedotjs className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 md:col-span-2 row-span-1",
-  },
+  // 10. PROTOTYPING (Standard Box)
   {
     name: "Figma",
     icon: <SiFigma className="w-5 h-5 sm:w-6 sm:h-6" />,
     size: "col-span-1 row-span-1",
+    color: "text-pink-400",
   },
+  // 11. VERSION CONTROL (Standard Box)
   {
-    name: "Material UI",
-    icon: <SiMaterialdesign className="w-5 h-5 sm:w-6 sm:h-6" />,
+    name: "GitHub",
+    icon: <FaGithub className="w-5 h-5 sm:w-6 sm:h-6" />,
     size: "col-span-1 row-span-1",
+    color: "text-white",
   },
 ];
 
@@ -113,7 +136,8 @@ const SkillsShowcase = () => {
       className="w-full mt-12"
     >
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
-        {/* 🔹 Big Tech Stack card with shine animation like original boxes */}
+        
+        {/* 🔹 HEADER CARD (Tech Stack Summary) */}
         <motion.div
           variants={itemAnimation}
           className="mb-8 sm:mb-10 max-w-4xl mx-auto"
@@ -124,64 +148,57 @@ const SkillsShowcase = () => {
               relative 
               rounded-3xl 
               border border-white/20 
-              bg-black/70 
+              bg-zinc-900/60
               px-5 py-5 sm:px-7 sm:py-7 md:px-8 md:py-8 
               shadow-[0_10px_40px_rgba(0,0,0,0.8)] 
               overflow-hidden 
               backdrop-blur-md
             "
           >
-            {/* ✅ SAME shiny sweep as skill boxes */}
+            {/* Shine Animation */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shiny-sweep" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent shiny-sweep" />
             </div>
 
-            {/* ✅ Gloss like the skill cards */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-              <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent rounded-3xl" />
-            </div>
-
-            {/* content */}
             <div className="relative flex flex-col md:flex-row gap-6 items-center md:items-start">
-              {/* square SVG on the left */}
-              <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden bg-black/40 border border-white/15 flex-shrink-0 relative backdrop-blur-sm">
+              {/* Image Box */}
+              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-black/40 border border-white/15 flex-shrink-0 relative backdrop-blur-sm shadow-inner">
                 <Image
-                  src="/hero-bg.svg"  // ensure this file exists in /public
+                  src="/hero-bg.svg" // Make sure this path is correct
                   alt="Tech stack visual"
                   fill
-                  className="object-contain opacity-95"
+                  className="object-contain opacity-80"
                   priority
                 />
               </div>
 
-              {/* text area on the right */}
+              {/* Text Content */}
               <div className="flex-1 space-y-3 md:space-y-4 text-left">
-                <div className="inline-flex items-center space-x-2 bg-secondary/10 border-[1.2px] border-zinc-700/80 px-3 py-1.5 rounded-full text-primary backdrop-blur-sm">
-                  <HiCode className="w-4 h-4 text-primary" />
-                  <span className="text-xs sm:text-sm font-semibold text-primary">
-                    Tech Stack
+                <div className="inline-flex items-center space-x-2 bg-white/10 border border-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <HiCode className="w-4 h-4 text-blue-400" />
+                  <span className="text-xs sm:text-sm font-semibold text-blue-100">
+                    High-Level Overview
                   </span>
                 </div>
 
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-white">
-                  Tech Stack
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
+                  My Tech Arsenal
                 </h2>
-                <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-xl">
-                  I specialize in a variety of languages, frameworks, and tools
-                  that allow me to build robust and scalable applications.
+                <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl">
+                  A powerful combination of <span className="text-blue-400">Web</span>, <span className="text-cyan-400">Mobile</span>, and <span className="text-purple-400">Creative Design</span> technologies. I utilize industry-standard tools to build full-stack solutions with premium visuals.
                 </p>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* 🔹 existing skills grid with the same shine animation */}
+        {/* 🔹 SKILLS BENTO GRID */}
         <motion.div
           variants={containerAnimation}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-4 w-full max-w-5xl mx-auto"
           style={{
-            gridAutoRows: "minmax(90px, auto)",
-            gridAutoFlow: "row dense",
+            gridAutoRows: "minmax(110px, auto)",
+            gridAutoFlow: "dense", // Tightly packs the boxes
           }}
         >
           {skills.map((skill) => (
@@ -192,53 +209,61 @@ const SkillsShowcase = () => {
             >
               <div
                 className="
-                  bg-black
-                  border-white/30
+                  bg-black/40
+                  border-white/20
                   border 
-                  p-2.5 sm:p-4 md:p-6
-                  rounded-lg sm:rounded-xl md:rounded-2xl
+                  p-4
+                  rounded-2xl
                   backdrop-blur-md 
                   cursor-default
                   relative overflow-hidden
                   h-full
                   w-full
-                  min-h-[90px] sm:min-h-[120px]
                   flex flex-col items-center justify-center
                   box-border
-                  shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_10px_rgba(255,255,255,0.05)]
+                  shadow-lg
                   transition-all duration-300
-                  group-hover:border-white/60
-                  group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
+                  group-hover:border-white/50
+                  group-hover:bg-zinc-900/80
+                  group-hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]
                 "
-                style={{ height: "100%" }}
               >
-                {/* Shiny overlay effect */}
+                {/* Gloss Effect */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shiny-sweep" />
+                   <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent rounded-t-2xl" />
                 </div>
 
-                {/* Glossy shine effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-2xl" />
-                </div>
-
-                <div className="relative flex flex-col items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 w-full z-10">
-                  {/* Icon container */}
-                  <div className="relative">
-                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md sm:rounded-lg md:rounded-xl bg-black border border-white/30 flex items-center justify-center shadow-lg transition-all duration-300 group-hover:border-white/60 group-hover:shadow-white/20 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]">
-                      <div className="text-white drop-shadow-lg transition-transform duration-300 group-hover:scale-110">
-                        {skill.icon}
-                      </div>
+                <div className="relative flex flex-col items-center gap-3 z-10 text-center">
+                  
+                  {/* Icon Container */}
+                  <div className={`
+                    p-3 rounded-xl 
+                    bg-white/5 border border-white/10 
+                    shadow-inner
+                    transition-transform duration-300
+                    group-hover:scale-110
+                  `}>
+                    <div className={`${skill.color} drop-shadow-md`}>
+                      {skill.icon}
                     </div>
                   </div>
 
-                  {/* Skill name */}
-                  <div className="flex flex-col items-center gap-0.5 sm:gap-1 w-full px-0.5 sm:px-1">
-                    <span className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white text-center tracking-tight transition-all duration-300 group-hover:text-white/90 break-words leading-tight">
+                  {/* Skill Text */}
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-sm sm:text-base font-semibold text-zinc-300 group-hover:text-white transition-colors duration-300">
                       {skill.name}
                     </span>
-                    <div className="w-5 sm:w-6 md:w-8 h-0.5 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent rounded-full transition-all duration-300 group-hover:via-white/60" />
+                    {/* Optional Description for larger boxes */}
+                    {skill.description && (
+                      <span className="text-[10px] sm:text-xs text-zinc-500 hidden sm:block">
+                        {skill.description}
+                      </span>
+                    )}
                   </div>
+                  
+                  {/* Decorative underline */}
+                  <div className={`w-8 h-0.5 rounded-full mt-1 bg-gradient-to-r from-transparent via-zinc-600 to-transparent group-hover:via-${skill.color.split('-')[1]}-500/50 transition-all`} />
+
                 </div>
               </div>
             </motion.div>
