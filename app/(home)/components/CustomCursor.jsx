@@ -17,24 +17,31 @@ const CustomCursor = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // 2. REFS (Synchronous tracking is crucial for scroll performance)
-  const isTouchingRef = useRef(false); // Tracks touch state instantly
+  // Touch + velocity for mobile "throw"
+  const isTouchingRef = useRef(false);
   const velocityInfo = useRef({
-    prevX: 0, prevY: 0,
-    lastX: 0, lastY: 0,
+    prevX: 0,
+    prevY: 0,
+    lastX: 0,
+    lastY: 0,
     time: 0,
   });
 
-  // 3. Hydration
+  // ------------------------------------------------------------------
+  // 🔹 HYDRATION + DEVICE CHECK
+  // ------------------------------------------------------------------
   useEffect(() => {
     setMounted(true);
+
     const checkMobile = () => {
       if (typeof window !== "undefined") {
         setIsMobile(window.innerWidth < 768);
       }
     };
+
     checkMobile();
     window.addEventListener("resize", checkMobile);
+
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -42,22 +49,23 @@ const CustomCursor = () => {
   // 🔹 PHYSICS ENGINE
   // ------------------------------------------------------------------
 
-  // DESKTOP: Fast Dot
+  // Desktop: fast dot
   const dotConfig = { stiffness: 500, damping: 35, mass: 0.5 };
   const dotX = useSpring(cursorX, dotConfig);
   const dotY = useSpring(cursorY, dotConfig);
 
-  // MOBILE / GLOW: 
-  // We use a conditional config here. On mobile, we want it Snappy (to stick to finger).
-  // On Desktop, we want it Floaty (fluid feel).
-  const glowConfig = isMobile 
-    ? { stiffness: 600, damping: 30, mass: 0.5 } // Mobile: Tight & Sticky
-    : { stiffness: 150, damping: 20, mass: 1.5 }; // Desktop: Loose & Floaty
+  // Mobile: tight & sticky, Desktop: loose & floaty
+  const glowConfig = isMobile
+    ? { stiffness: 600, damping: 30, mass: 0.5 }
+    : { stiffness: 150, damping: 20, mass: 1.5 };
 
   const glowX = useSpring(cursorX, glowConfig);
   const glowY = useSpring(cursorY, glowConfig);
 
-  const smoothOpacity = useSpring(cursorOpacity, { stiffness: 300, damping: 20 });
+  const smoothOpacity = useSpring(cursorOpacity, {
+    stiffness: 300,
+    damping: 20,
+  });
 
   // ------------------------------------------------------------------
   // 🔹 CORE LOGIC
@@ -67,14 +75,13 @@ const CustomCursor = () => {
     const now = performance.now();
     const v = velocityInfo.current;
 
-    // Record velocity for the "Throw"
+    // Velocity tracking for throw
     v.prevX = v.lastX;
     v.prevY = v.lastY;
     v.lastX = x;
     v.lastY = y;
     v.time = now;
 
-    // Update cursor immediately
     cursorX.set(x);
     cursorY.set(y);
     cursorOpacity.set(1);
@@ -83,98 +90,122 @@ const CustomCursor = () => {
   const triggerThrow = () => {
     const now = performance.now();
     const v = velocityInfo.current;
-    
-    // Safety check: if user held finger still for > 50ms, don't throw
-    if (now - v.time > 50) return; 
 
-    const dt = Math.max(now - v.time, 10); 
+    // If finger stayed still too long, skip throw
+    if (now - v.time > 50) return;
+
+    const dt = Math.max(now - v.time, 10);
     const vx = (v.lastX - v.prevX) / dt;
     const vy = (v.lastY - v.prevY) / dt;
 
-    const throwPower = isMobile ? 400 : 200; // Stronger throw on mobile
+    const throwPower = isMobile ? 400 : 200;
 
     const targetX = v.lastX + vx * throwPower;
     const targetY = v.lastY + vy * throwPower;
 
-    // Animate the values (Springs will follow this)
-    // We use a looser spring for the throw animation itself
     const throwSpring = { type: "spring", stiffness: 50, damping: 20 };
-    
-    // Clamp to screen bounds
-    const maxX = typeof window !== 'undefined' ? window.innerWidth : 1000;
-    const maxY = typeof window !== 'undefined' ? window.innerHeight : 1000;
 
-    animate(cursorX, Math.min(Math.max(targetX, 0), maxX), throwSpring);
-    animate(cursorY, Math.min(Math.max(targetY, 0), maxY), throwSpring);
+    const maxX =
+      typeof window !== "undefined" ? window.innerWidth : 1000;
+    const maxY =
+      typeof window !== "undefined" ? window.innerHeight : 1000;
+
+    animate(
+      cursorX,
+      Math.min(Math.max(targetX, 0), maxX),
+      throwSpring
+    );
+    animate(
+      cursorY,
+      Math.min(Math.max(targetY, 0), maxY),
+      throwSpring
+    );
   };
 
   // ------------------------------------------------------------------
-  // 🔹 EVENT LISTENERS
+  // 🔹 EVENT LISTENERS (SEPARATE FOR MOBILE & DESKTOP)
   // ------------------------------------------------------------------
 
   useEffect(() => {
     if (!mounted || typeof window === "undefined") return;
 
+    // ========== 📱 MOBILE LOGIC ==========
+    if (isMobile) {
+      const onTouchStart = (e) => {
+        isTouchingRef.current = true;
+        const t = e.touches[0];
+        if (t) updatePosition(t.clientX, t.clientY);
+      };
+
+      const onTouchMove = (e) => {
+        // Follow fingertip exactly, even while user scrolls
+        const t = e.touches[0];
+        if (t) updatePosition(t.clientX, t.clientY);
+      };
+
+      const onTouchEnd = () => {
+        isTouchingRef.current = false;
+        triggerThrow(); // optional “throw” after lifting
+      };
+
+      const onTouchCancel = () => {
+        isTouchingRef.current = false;
+      };
+
+      window.addEventListener("touchstart", onTouchStart, {
+        passive: true,
+      });
+      window.addEventListener("touchmove", onTouchMove, {
+        passive: true,
+      });
+      window.addEventListener("touchend", onTouchEnd);
+      window.addEventListener("touchcancel", onTouchCancel);
+
+      // No scroll-drag on mobile:
+      // The circle only follows the finger, not the page.
+      return () => {
+        window.removeEventListener("touchstart", onTouchStart);
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("touchcancel", onTouchCancel);
+      };
+    }
+
+    // ========== 💻 DESKTOP LOGIC ==========
     let lastScrollY = window.scrollY;
 
-    // --- TOUCH (Mobile) ---
-    // We use { passive: false } to ensure we get every event frame
-    const onTouchStart = (e) => {
-      isTouchingRef.current = true;
-      const t = e.touches[0];
-      if (t) updatePosition(t.clientX, t.clientY);
+    const onMouseMove = (e) => {
+      updatePosition(e.clientX, e.clientY);
     };
 
-    const onTouchMove = (e) => {
-      // Always update position on move, regardless of scroll
-      const t = e.touches[0];
-      if (t) updatePosition(t.clientX, t.clientY);
+    const onMouseLeave = () => {
+      cursorOpacity.set(0);
     };
 
-    const onTouchEnd = () => {
-      isTouchingRef.current = false;
-      triggerThrow();
-    };
-
-    // --- MOUSE (Desktop) ---
-    const onMouseMove = (e) => updatePosition(e.clientX, e.clientY);
-    const onMouseLeave = () => cursorOpacity.set(0);
-
-    // --- SCROLL (Fluid Drag) ---
     const onScroll = () => {
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
-      // CRITICAL FIX: Only apply "Scroll Drag" if user is NOT touching the screen.
-      // If they are touching, the finger controls position, not the scroll delta.
-      if (!isTouchingRef.current) {
-        const currentY = cursorY.get();
-        // Drag the cursor slightly with the page (Inertia effect)
-        cursorY.set(currentY - delta * 0.8);
-      }
+      // Scroll inertia effect only on desktop
+      const currentY = cursorY.get();
+      cursorY.set(currentY - delta * 0.8);
     };
 
-    if (isMobile) {
-      window.addEventListener("touchstart", onTouchStart, { passive: true });
-      window.addEventListener("touchmove", onTouchMove, { passive: true });
-      window.addEventListener("touchend", onTouchEnd);
-    } else {
-      window.addEventListener("mousemove", onMouseMove, { passive: true });
-      window.addEventListener("mouseleave", onMouseLeave);
-    }
-
+    window.addEventListener("mousemove", onMouseMove, {
+      passive: true,
+    });
+    window.addEventListener("mouseleave", onMouseLeave, {
+      passive: true,
+    });
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [mounted, isMobile]); // Removed isTouching from dependency array to prevent re-binds
+  }, [mounted, isMobile, cursorOpacity, cursorY, updatePosition]);
 
   if (!mounted) return null;
 
@@ -182,14 +213,14 @@ const CustomCursor = () => {
   // 🔹 RENDER
   // ------------------------------------------------------------------
 
-  const baseStyle = {
+  const baseStyle: React.CSSProperties = {
     position: "fixed",
     top: 0,
     left: 0,
     pointerEvents: "none",
     opacity: smoothOpacity,
-    translateX: "-50%",
-    translateY: "-50%",
+    // Correct centering for both x/y motion values:
+    transform: "translate(-50%, -50%)",
   };
 
   return (
@@ -204,7 +235,7 @@ const CustomCursor = () => {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           style={{
             ...baseStyle,
-            x: glowX, // Uses the tighter mobile config
+            x: glowX,
             y: glowY,
             width: 80,
             height: 80,
@@ -217,22 +248,25 @@ const CustomCursor = () => {
       {!isMobile && (
         <>
           <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.4, 0.6, 0.4],
+            }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             style={{
               ...baseStyle,
-              x: glowX, // Fluid/Floaty
+              x: glowX,
               y: glowY,
               width: 120,
               height: 120,
             }}
             className="z-[9997] rounded-full bg-white blur-[45px] mix-blend-difference"
           />
-          
+
           <motion.div
             style={{
               ...baseStyle,
-              x: dotX, // Snappy
+              x: dotX,
               y: dotY,
               width: 16,
               height: 16,
