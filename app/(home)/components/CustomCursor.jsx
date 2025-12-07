@@ -9,26 +9,23 @@ import {
 } from "framer-motion";
 
 const CustomCursor = () => {
-  // 1. Core Motion Values
+  // 1. Motion Values
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const cursorOpacity = useMotionValue(0);
 
-  // 2. State
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isTouching, setIsTouching] = useState(false); // New: Track if user is holding screen
 
-  // 3. Velocity Tracker (Refs are stable and don't cause re-renders)
+  // 2. REFS (Synchronous tracking is crucial for scroll performance)
+  const isTouchingRef = useRef(false); // Tracks touch state instantly
   const velocityInfo = useRef({
-    prevX: 0,
-    prevY: 0,
-    lastX: 0,
-    lastY: 0,
+    prevX: 0, prevY: 0,
+    lastX: 0, lastY: 0,
     time: 0,
   });
 
-  // 4. Hydration & Device Check
+  // 3. Hydration
   useEffect(() => {
     setMounted(true);
     const checkMobile = () => {
@@ -42,42 +39,42 @@ const CustomCursor = () => {
   }, []);
 
   // ------------------------------------------------------------------
-  // 🔹 SPRING PHYSICS
+  // 🔹 PHYSICS ENGINE
   // ------------------------------------------------------------------
 
-  // Desktop Dot (Fast)
+  // DESKTOP: Fast Dot
   const dotConfig = { stiffness: 500, damping: 35, mass: 0.5 };
   const dotX = useSpring(cursorX, dotConfig);
   const dotY = useSpring(cursorY, dotConfig);
 
-  // Mobile Ring / Desktop Glow (Fluid & Heavy)
-  const glowConfig = { stiffness: 150, damping: 20, mass: 1.5 };
+  // MOBILE / GLOW: 
+  // We use a conditional config here. On mobile, we want it Snappy (to stick to finger).
+  // On Desktop, we want it Floaty (fluid feel).
+  const glowConfig = isMobile 
+    ? { stiffness: 600, damping: 30, mass: 0.5 } // Mobile: Tight & Sticky
+    : { stiffness: 150, damping: 20, mass: 1.5 }; // Desktop: Loose & Floaty
+
   const glowX = useSpring(cursorX, glowConfig);
   const glowY = useSpring(cursorY, glowConfig);
 
   const smoothOpacity = useSpring(cursorOpacity, { stiffness: 300, damping: 20 });
 
   // ------------------------------------------------------------------
-  // 🔹 MOVEMENT LOGIC
+  // 🔹 CORE LOGIC
   // ------------------------------------------------------------------
 
-  // Helper to keep cursor inside screen
-  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-
   const updatePosition = (x, y) => {
-    if (typeof window === "undefined") return;
-
     const now = performance.now();
     const v = velocityInfo.current;
 
-    // Update Velocity History
+    // Record velocity for the "Throw"
     v.prevX = v.lastX;
     v.prevY = v.lastY;
     v.lastX = x;
     v.lastY = y;
     v.time = now;
 
-    // Update Motion Values directly
+    // Update cursor immediately
     cursorX.set(x);
     cursorY.set(y);
     cursorOpacity.set(1);
@@ -87,24 +84,28 @@ const CustomCursor = () => {
     const now = performance.now();
     const v = velocityInfo.current;
     
-    // Prevent divide by zero or huge jumps
-    const dt = Math.max(now - v.time, 10); 
-    
-    // If too much time passed since last move (user stopped), don't throw
+    // Safety check: if user held finger still for > 50ms, don't throw
     if (now - v.time > 50) return; 
 
-    // Calculate Velocity
+    const dt = Math.max(now - v.time, 10); 
     const vx = (v.lastX - v.prevX) / dt;
     const vy = (v.lastY - v.prevY) / dt;
 
-    const throwPower = isMobile ? 300 : 200; // Stronger throw on mobile
+    const throwPower = isMobile ? 400 : 200; // Stronger throw on mobile
 
     const targetX = v.lastX + vx * throwPower;
     const targetY = v.lastY + vy * throwPower;
 
-    // Animate the source value; springs will follow
-    animate(cursorX, clamp(targetX, 0, window.innerWidth), { type: "spring", stiffness: 40, damping: 15 });
-    animate(cursorY, clamp(targetY, 0, window.innerHeight), { type: "spring", stiffness: 40, damping: 15 });
+    // Animate the values (Springs will follow this)
+    // We use a looser spring for the throw animation itself
+    const throwSpring = { type: "spring", stiffness: 50, damping: 20 };
+    
+    // Clamp to screen bounds
+    const maxX = typeof window !== 'undefined' ? window.innerWidth : 1000;
+    const maxY = typeof window !== 'undefined' ? window.innerHeight : 1000;
+
+    animate(cursorX, Math.min(Math.max(targetX, 0), maxX), throwSpring);
+    animate(cursorY, Math.min(Math.max(targetY, 0), maxY), throwSpring);
   };
 
   // ------------------------------------------------------------------
@@ -117,30 +118,27 @@ const CustomCursor = () => {
     let lastScrollY = window.scrollY;
 
     // --- TOUCH (Mobile) ---
+    // We use { passive: false } to ensure we get every event frame
     const onTouchStart = (e) => {
-      setIsTouching(true);
+      isTouchingRef.current = true;
       const t = e.touches[0];
-      if(t) updatePosition(t.clientX, t.clientY);
+      if (t) updatePosition(t.clientX, t.clientY);
     };
 
     const onTouchMove = (e) => {
+      // Always update position on move, regardless of scroll
       const t = e.touches[0];
-      if(t) updatePosition(t.clientX, t.clientY);
+      if (t) updatePosition(t.clientX, t.clientY);
     };
 
     const onTouchEnd = () => {
-      setIsTouching(false);
+      isTouchingRef.current = false;
       triggerThrow();
     };
 
     // --- MOUSE (Desktop) ---
-    const onMouseMove = (e) => {
-      updatePosition(e.clientX, e.clientY);
-    };
-
-    const onMouseLeave = () => {
-      cursorOpacity.set(0);
-    };
+    const onMouseMove = (e) => updatePosition(e.clientX, e.clientY);
+    const onMouseLeave = () => cursorOpacity.set(0);
 
     // --- SCROLL (Fluid Drag) ---
     const onScroll = () => {
@@ -148,15 +146,15 @@ const CustomCursor = () => {
       const delta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
-      // Only apply scroll "drag" if NOT currently touching
-      // This fixes the issue where the cursor fights your finger
-      if (!isTouching) {
+      // CRITICAL FIX: Only apply "Scroll Drag" if user is NOT touching the screen.
+      // If they are touching, the finger controls position, not the scroll delta.
+      if (!isTouchingRef.current) {
         const currentY = cursorY.get();
+        // Drag the cursor slightly with the page (Inertia effect)
         cursorY.set(currentY - delta * 0.8);
       }
     };
 
-    // Attach Listeners
     if (isMobile) {
       window.addEventListener("touchstart", onTouchStart, { passive: true });
       window.addEventListener("touchmove", onTouchMove, { passive: true });
@@ -165,7 +163,7 @@ const CustomCursor = () => {
       window.addEventListener("mousemove", onMouseMove, { passive: true });
       window.addEventListener("mouseleave", onMouseLeave);
     }
-    
+
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
@@ -176,23 +174,13 @@ const CustomCursor = () => {
       window.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [mounted, isMobile, isTouching]); // Dependencies ensure clean re-binds
+  }, [mounted, isMobile]); // Removed isTouching from dependency array to prevent re-binds
 
-  // Don't render until client-side hydration is done
   if (!mounted) return null;
 
   // ------------------------------------------------------------------
-  // 🔹 STYLES
+  // 🔹 RENDER
   // ------------------------------------------------------------------
-
-  const glowVariants = {
-    idle: { scale: 1, opacity: 0.5 },
-    breathing: {
-      scale: [1, 1.15, 1],
-      opacity: [0.5, 0.7, 0.5],
-      transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-    },
-  };
 
   const baseStyle = {
     position: "fixed",
@@ -206,49 +194,50 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* 📱 MOBILE: Finger Ring */}
+      {/* 📱 MOBILE: Sticky Finger Ring */}
       {isMobile && (
         <motion.div
-          variants={glowVariants}
-          animate="breathing"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.6, 0.8, 0.6],
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           style={{
             ...baseStyle,
-            x: glowX, // Fluid spring
+            x: glowX, // Uses the tighter mobile config
             y: glowY,
-            width: 80, 
+            width: 80,
             height: 80,
           }}
-          className="z-[9999] rounded-full border border-white/40 bg-white/5 blur-[1px] mix-blend-difference shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+          className="z-[9999] rounded-full border-2 border-white/30 bg-white/10 blur-[1px] mix-blend-difference shadow-[0_0_20px_rgba(255,255,255,0.2)]"
         />
       )}
 
-      {/* 💻 DESKTOP: Dot + Glow */}
+      {/* 💻 DESKTOP: Dot + Ambient Glow */}
       {!isMobile && (
         <>
-          {/* Ambient Glow */}
           <motion.div
-            variants={glowVariants}
-            animate="breathing"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             style={{
               ...baseStyle,
-              x: glowX, 
+              x: glowX, // Fluid/Floaty
               y: glowY,
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 120,
             }}
-            className="z-[9997] rounded-full bg-white blur-[40px] mix-blend-difference"
+            className="z-[9997] rounded-full bg-white blur-[45px] mix-blend-difference"
           />
-
-          {/* Sharp Pointer */}
+          
           <motion.div
             style={{
               ...baseStyle,
-              x: dotX,
+              x: dotX, // Snappy
               y: dotY,
               width: 16,
               height: 16,
             }}
-            className="z-[9999] rounded-full mix-blend-difference bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+            className="z-[9999] rounded-full mix-blend-difference bg-white shadow-[0_0_10px_rgba(255,255,255,1)]"
           />
         </>
       )}
