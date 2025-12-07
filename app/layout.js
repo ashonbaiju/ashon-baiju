@@ -16,7 +16,7 @@ const geistSans = localFont({
 });
 
 export const metadata = {
-  title: "Ashon's Portfolio",
+  title: "Ashon Baiju",
   icons: {
     icon: "/logo.png",
   },
