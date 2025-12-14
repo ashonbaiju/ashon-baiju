@@ -1,6 +1,4 @@
-![Thumbnail ](images/Thumbnail.png)
-
-# Huzaif Ahmed - Portfolio Website
+# Ashon Baiju - Portfolio Website
 
 A modern and responsive portfolio website to showcase my projects, skills, and experiences. Built with Next.js and styled using Tailwind CSS, this portfolio provides a seamless user experience with smooth animations and an organized layout.
 
@@ -52,4 +50,4 @@ A modern and responsive portfolio website to showcase my projects, skills, and e
 
 
 
-![Demo](images/Screenshot_1.png)
+![Demo](images/Screenshot_1.png
