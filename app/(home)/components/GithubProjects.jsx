@@ -10,63 +10,60 @@ import { config } from "@/config";
 
 // 👇 EDIT THIS ARRAY WITH YOUR OWN OPEN SOURCE PROJECTS
 const openSourceProjects = [
-  // ⭐ NEW PROJECTS YOU REQUESTED
   {
     id: 101,
-    name: "Julebi Platform",
+    name: "My Resume",
     description:
-      "A modern marketplace where users can browse products, services, and offers with a clean UI and seamless experience.",
-    html_url: "https://julebi.com",
-    language: "TypeScript",
+      "A clean, minimal, and fully modern resumé and portfolio template created to showcase skills and experience.",
+    html_url: "https://github.com/ashonbaiju/my-resume",
+    language: "HTML",
     stargazers_count: 0,
     forks_count: 0,
-    topics: ["marketplace", "ecommerce", "platform"],
+    topics: ["resume", "portfolio", "html"],
   },
   {
     id: 102,
-    name: "Julebi Delivery Boy App",
+    name: "Ashon Baiju Portfolio",
     description:
-      "A delivery-side mobile application handling orders, tracking, and dispatching for the Julebi ecosystem.",
-    html_url: "https://julebi.com/delivery",
-    language: "Flutter",
+      "My personal developer portfolio built with Next.js, Tailwind CSS, Framer Motion, and highly customized modern animations.",
+    html_url: "https://github.com/ashonbaiju/ashon-baiju",
+    language: "JavaScript",
     stargazers_count: 0,
     forks_count: 0,
-    topics: ["delivery-app", "logistics", "flutter"],
+    topics: ["portfolio", "nextjs", "framer-motion"],
   },
   {
     id: 103,
-    name: "OldSyllabus Provider Platform",
+    name: "Ziya Designs",
     description:
-      "A contributor portal where tutors and students upload and share academic syllabi, notes, and materials.",
-    html_url: "https://oldsllabus.com",
-    language: "Next.js",
+      "Creative branding, logo design, and visual styling repository containing various premium design assets.",
+    html_url: "https://github.com/ashonbaiju/ziyadesigns1",
+    language: "TypeScript",
     stargazers_count: 0,
     forks_count: 0,
-    topics: ["education", "notes", "provider-platform"],
+    topics: ["design", "branding", "ui-ux"],
   },
-
-  // ⭐ YOUR EXISTING PROJECTS FROM BEFORE
   {
     id: 1,
     name: "Image Hex Converter",
     description:
       "A simple tool that converts images into hexadecimal representation for developers and designers.",
-    html_url: "https://github.com/your-username/image-hex-converter",
-    language: "JavaScript",
+    html_url: "https://github.com/ashonbaiju/image-hex-converter",
+    language: "Python",
     stargazers_count: 12,
     forks_count: 3,
     topics: ["tool", "image", "converter"],
   },
   {
     id: 2,
-    name: "OldSyllabus Platform",
+    name: "Camcall Platform",
     description:
-      "Platform for sharing and discovering previous year syllabi and notes with a clean UI.",
-    html_url: "https://github.com/your-username/oldsyllabus",
+      "Modern web platform enabling high-quality business consultation and communication services with seamless UX.",
+    html_url: "https://github.com/ashonbaiju/camcall",
     language: "TypeScript",
     stargazers_count: 8,
     forks_count: 1,
-    topics: ["nextjs", "education", "platform"],
+    topics: ["nextjs", "communication", "platform"],
   },
   {
     id: 3,

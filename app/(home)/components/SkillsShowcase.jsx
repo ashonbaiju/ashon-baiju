@@ -205,32 +205,38 @@ const SkillsShowcase = () => {
             <motion.div
               key={skill.name}
               variants={itemAnimation}
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.95 }}
               className={`relative group ${skill.size}`}
             >
               <div
                 className="
-                  bg-black/80
-                  border-white/20
+                  bg-black
+                  border-white/30
                   border 
                   p-4
                   rounded-2xl
                   backdrop-blur-md 
-                  cursor-default
+                  cursor-pointer
                   relative overflow-hidden
                   h-full
                   w-full
                   flex flex-col items-center justify-center
                   box-border
-                  shadow-lg
+                  shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_10px_rgba(255,255,255,0.05)]
                   transition-all duration-300
-                  group-hover:border-white/50
-                  group-hover:bg-black
-                  group-hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]
+                  group-hover:border-white/60
+                  group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
                 "
               >
-                {/* Gloss Effect */}
+                {/* shiny overlay from Open Source Projects */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                   <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent rounded-t-2xl" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shiny-sweep" />
+                </div>
+
+                {/* glossy top shine from Open Source Projects */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none">
+                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-2xl" />
                 </div>
 
                 <div className="relative flex flex-col items-center gap-3 z-10 text-center">

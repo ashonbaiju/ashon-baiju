@@ -112,7 +112,7 @@ Full-stack developer & designer crafting digital experiences that feel intuitive
             transition={{ delay: 1, duration: 1 }}
             className="absolute -z-10 inset-0 pointer-events-none"
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-primary/5 rounded-full blur-3xl" />
           </motion.div>
         </motion.div>
         

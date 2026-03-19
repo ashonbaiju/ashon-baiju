@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
 import CustomCursor from "@/components/CustomCursor";
+import MinimalGlow from "@/components/MinimalGlow";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -63,6 +64,8 @@ export default function RootLayout({ children }) {
                 "font-semibold backdrop-blur-md text-black rounded-3xl",
             }}
           />
+
+          <MinimalGlow />
 
           <GridPattern
             width={200}

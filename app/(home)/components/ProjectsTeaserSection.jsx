@@ -11,6 +11,7 @@ const projects = [
     description:
       "A multi-seller marketplace experience focused on sellers managing products, orders and offers in a clean, mobile interface.",
     tech: ["Flutter", "REST API", "Firebase"],
+    link: "https://play.google.com/store/apps/details?id=com.seller.julebi&hl=en",
   },
   {
     title: "OldSyllabus Platform",
@@ -18,13 +19,15 @@ const projects = [
     description:
       "A local services platform where people can list and discover skills, tuition and services with a focus on simplicity and clarity.",
     tech: ["Next.js", "Tailwind CSS", "Responsive UI"],
+    link: "https://play.google.com/store/apps/details?id=com.oldsyllabusprovider.vr&hl=en",
   },
   {
-    title: "AdFlow Concept",
-    type: "Product Idea · UX Concept",
+    title: "Camcall",
+    type: "Web Platform",
     description:
-      "Concept application where users can earn small rewards by watching ads, with a clean UI and revenue-sharing model.",
-    tech: ["Product Design", "Wireframing", "UI Exploration"],
+      "A modern web platform delivering high-quality business consultation and communication services with an intuitive, seamless user experience.",
+    tech: ["Web Development", "UI/UX", "Modern Frontend"],
+    link: "https://camcall.in/",
   },
 ];
 
@@ -106,10 +109,15 @@ const ProjectsTeaserSection = () => {
           className="grid gap-6 md:gap-8 md:grid-cols-3"
         >
           {projects.map((project, index) => (
-            <motion.div
+            <motion.a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
               key={project.title}
               variants={item}
-              className="group relative h-full rounded-2xl border border-white/10 bg-black/60 px-5 py-6 sm:px-6 sm:py-7 shadow-[0_18px_50px_rgba(0,0,0,0.75)] backdrop-blur-md overflow-hidden flex flex-col"
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative h-full rounded-2xl border border-white/10 bg-black/60 px-5 py-6 sm:px-6 sm:py-7 shadow-[0_18px_50px_rgba(0,0,0,0.75)] backdrop-blur-md overflow-hidden flex flex-col cursor-pointer hover:border-white/30 hover:bg-black/80 transition-all duration-300"
             >
               {/* subtle hover glow */}
               <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -142,12 +150,12 @@ const ProjectsTeaserSection = () => {
 
               {/* optional subtle bottom link style */}
               <div className="relative mt-4 pt-2">
-                <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.2em] text-zinc-500 group-hover:text-zinc-300 transition-colors">
-                  Preview in projects page
-                  <span className="text-[13px]">↗</span>
+                <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.2em] text-zinc-500 group-hover:text-blue-400 transition-colors duration-300">
+                  View Live Project
+                  <span className="text-[13px] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
                 </span>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </motion.div>
 
