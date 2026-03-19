@@ -8,28 +8,38 @@ import { TbBrandGithub } from "react-icons/tb";
 import { PiPaintBrushBroadLight } from "react-icons/pi";
 
 const container = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const headerVariant = {
+  hidden: { opacity: 0, y: 50 },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 30 },
-  show: (i) => ({
+  hidden: { opacity: 0, y: 70 },
+  show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
-      delay: i * 0.18,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1],
     },
-  }),
+  },
 };
 
 // small helper for floating icons
@@ -56,10 +66,10 @@ const CapabilitiesSection = () => {
         variants={container}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.35 }}
+        viewport={{ once: true, amount: 0.15, margin: "0px 0px -50px 0px" }}
       >
         {/* Heading */}
-        <div className="text-center mb-14 space-y-4">
+        <motion.div variants={headerVariant} className="text-center mb-14 space-y-4">
           <p className="text-[12px] tracking-[0.25em] text-zinc-500 uppercase">
             Capabilities
           </p>
@@ -70,13 +80,12 @@ const CapabilitiesSection = () => {
             A balance of development and design skills, applied to create clean,
             modern digital experiences.
           </p>
-        </div>
+        </motion.div>
 
         {/* Two-column capability cards */}
         <div className="grid gap-10 md:grid-cols-2">
           {/* Development card */}
           <motion.div
-            custom={0}
             variants={cardVariant}
             className="group relative rounded-3xl border border-white/10
                        bg-black/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md
@@ -180,7 +189,6 @@ const CapabilitiesSection = () => {
 
           {/* Design card */}
           <motion.div
-            custom={1}
             variants={cardVariant}
             className="group relative rounded-3xl border border-white/10
                        bg-black/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md

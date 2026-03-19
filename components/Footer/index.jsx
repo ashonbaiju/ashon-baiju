@@ -62,7 +62,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="https://instagram.com/yourprofile"
+                href="https://www.instagram.com/ashon_baiju/"
                 target="_blank"
                 className="text-white/60 hover:text-white transition"
               >
@@ -70,7 +70,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="https://linkedin.com/in/yourprofile"
+                href="https://www.linkedin.com/in/ashon-baiju-995640301/"
                 target="_blank"
                 className="text-white/60 hover:text-white transition"
               >

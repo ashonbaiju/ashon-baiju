@@ -1,4 +1,4 @@
-import { FaDiscord, FaGithub, FaMapPin } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaMapPin, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiCode, HiCube, HiDatabase, HiMail, HiBriefcase } from "react-icons/hi";
 
 export const config = {
@@ -7,7 +7,9 @@ export const config = {
     },
     social: {
         github: "ashonbaiju",
-        discord: "#"
+        discord: "#",
+        instagram: "https://www.instagram.com/ashon_baiju/",
+        linkedin: "https://www.linkedin.com/in/ashon-baiju-995640301/"
     },
     NAV_ITEMS: [
         { href: '/projects', label: 'Projects' },
@@ -188,6 +190,18 @@ export const config = {
             label: "Location",
             value: "India",
             link: null
+        },
+        {
+            icon: <FaLinkedin className="w-5 h-5" />,
+            label: "LinkedIn",
+            value: "Ashon Baiju",
+            link: "https://www.linkedin.com/in/ashon-baiju-995640301/"
+        },
+        {
+            icon: <FaInstagram className="w-5 h-5" />,
+            label: "Instagram",
+            value: "@ashon_baiju",
+            link: "https://www.instagram.com/ashon_baiju/"
         }
     ]
 }
