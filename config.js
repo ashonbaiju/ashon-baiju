@@ -17,88 +17,70 @@ export const config = {
     ],
     recentTracks: true, // Enable/disable Spotify recent tracks
     projects: [
-  {
-    id: 1,
-    title: "My Resume – Minimal Portfolio",
-    description:
-      "A clean one-page resume website built to showcase my skills, education, and projects with a responsive layout.",
-    image: "https://github.com/ashonbaiju/my-resume/blob/main/assets/images/kiridam.jpg?raw=true",
-    technologies: ["HTML5", "CSS3", "JavaScript"],
-    github: "https://github.com/ashonbaiju/my-resume",
-    demo: "#", // update later if you host it
-  },
-  {
-    id: 2,
-    title: "Personal Portfolio – v4 (Camcall / Dev Portfolio)",
-    description:
-      "A modern developer portfolio built on top of Huzaif Ahmed's template, customized with my own tech stack, animations, and branding.",
-    image: "https://play-lh.googleusercontent.com/7CEb0nQ0LrDv1DqqS5vVyMJ0po5spOiIyjjKoN-Kq5LABNzrtvAznj6y5QIBzRwAyGbI",
-    technologies: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
-    github: "https://github.com/ashonbaiju", // or your fork
-    demo: "#", // your deployed link (Vercel / Netlify)
-  },
-  {
-    id: 3,
-    title: "OldSyllabus ",
-    description:
-      "A concept webh a clean, mobile-first UI.",
-    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAzUlEQVR4AczRIRCDIBQGYOuyzbxgNdLsxWaiW4kWOz2Y7cVkMxMsZpKVRiTA3b/b7bY9mPa99t93/LyD7A+mlO2ltYKzc2lm472Wxa/kg0Vw1nlgSrlccIzPRjYZqFuMK+bq3b5himzAmn8COwKnaFxFUgdFksASFVlT0xt5hKOX33AgeQuoa2TYrrGhJzVYhJIuOGOM8HADWSAYahzmTuJOewqbFFlsdf4i4aCSX9l9UFJ0YtSwa5bOoLRxwRm9dtnJMN7LnleP0TydAgB5cmlbClPjvgAAAABJRU5ErkJggg==",
-    technologies: ["React", "Tailwind CSS", "Firebase"],
-    github: "#", // add when repo is ready
-    demo: "#",
-  },
-  {
-    id: 4,
-    title: "AdFlow – Ad Reward Concept App",
-    description:
-      "A concept model where users watch ads 24/7 and earn a share of the ad revenue, with a simple UI focused on user earnings.",
-    image: "/projects/adflow.webp",
-    technologies: ["Flutter", "Firebase", "Figma"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 5,
-    title: "Resume Builder Web App",
-    description:
-      "A resume builder that supports ATS-friendly templates for tech and non-tech users, with options to download as PDF and DOCX.",
-    image: "/projects/resume-builder.webp",
-    technologies: ["React", "Tailwind CSS", "Node.js"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 6,
-    title: "Image Hex Converter",
-    description:
-      "A developer tool that converts images to hexadecimal format for use in low-level graphics, embedded systems, or styling experiments.",
-    image: "/projects/image-hex-converter.webp",
-    technologies: ["Python", "Pillow", "CLI"],
-    github: "https://github.com/ashonbaiju/Image-Hex-Converter", // if repo exists / when you create it
-    demo: "#",
-  },
-  {
-    id: 7,
-    title: "Voice FX – Termux Voice Changer",
-    description:
-      "A Termux-based experiment that processes microphone input and applies real-time voice effects, aiming to change the voice (e.g., to a female tone).",
-    image: "/projects/voice-fx.webp",
-    technologies: ["Termux", "Python", "FFmpeg"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    id: 8,
-    title: "Branding & Graphics – Julebi, OldSyllabus & VVS.EDU",
-    description:
-      "Logo design, posters, and marketing creatives for brands like Julebi, OldSyllabus, and VVS.EDU, including social media assets and ad graphics.",
-    image: "/projects/branding-collection.webp",
-    technologies: ["Adobe Photoshop", "Illustrator", "Figma", "Canva"],
-    github: "#",
-    demo: "#",
-  },
+      {
+        id: 1,
+        title: "My Resume",
+        description: "A clean, minimal, and fully modern resumé and portfolio template created to showcase skills and experience.",
+        image: "https://github.com/ashonbaiju/my-resume/blob/main/assets/images/kiridam.jpg?raw=true",
+        technologies: ["HTML", "CSS", "JavaScript"],
+        github: "https://github.com/ashonbaiju/my-resume",
+        demo: "https://github.com/ashonbaiju/my-resume",
+      },
+      {
+        id: 2,
+        title: "Ashon Baiju Portfolio",
+        description: "My personal developer portfolio built with Next.js, Tailwind CSS, Framer Motion, and customized modern animations.",
+        image: "https://play-lh.googleusercontent.com/7CEb0nQ0LrDv1DqqS5vVyMJ0po5spOiIyjjKoN-Kq5LABNzrtvAznj6y5QIBzRwAyGbI",
+        technologies: ["Next.js", "React", "Tailwind CSS"],
+        github: "https://github.com/ashonbaiju/ashon-baiju",
+        demo: "https://github.com/ashonbaiju/ashon-baiju",
+      },
+      {
+        id: 3,
+        title: "Ziya Designs",
+        description: "Creative branding, logo design, and visual styling repository containing various premium design assets.",
+        image: "/projects/project-1.webp",
+        technologies: ["Design", "Branding", "UI/UX"],
+        github: "https://github.com/ashonbaiju/ziyadesigns1",
+        demo: "https://github.com/ashonbaiju/ziyadesigns1",
+      },
+      {
+        id: 4,
+        title: "Camcall Platform",
+        description: "Modern web platform enabling high-quality business consultation and communication services with seamless UX.",
+        image: "/projects/project-2.webp",
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+        github: "https://github.com/ashonbaiju/camcall",
+        demo: "https://camcall.in/",
+      },
+      {
+        id: 5,
+        title: "Image Hex Converter",
+        description: "A developer tool that converts images to hexadecimal format for use in low-level graphics or styling experiments.",
+        image: "/projects/project-3.webp",
+        technologies: ["Python", "OpenCV", "CLI"],
+        github: "https://github.com/ashonbaiju/image-hex-converter",
+        demo: "https://github.com/ashonbaiju/image-hex-converter",
+      },
+      {
+        id: 6,
+        title: "Julebi Seller App",
+        description: "A multi-seller marketplace experience focused on sellers managing products, orders and offers in a clean interface.",
+        image: "/projects/project-4.webp",
+        technologies: ["Flutter", "REST API", "Firebase"],
+        github: "#",
+        demo: "https://play.google.com/store/apps/details?id=com.seller.julebi&hl=en",
+      },
+      {
+        id: 7,
+        title: "OldSyllabus Platform",
+        description: "A local services platform where people can list and discover skills, tuition and services with a focus on simplicity and clarity.",
+        image: "/projects/project-5.webp",
+        technologies: ["React Native", "Firebase", "UI/UX"],
+        github: "#",
+        demo: "https://play.google.com/store/apps/details?id=com.oldsyllabusprovider.vr&hl=en",
+      }
     ],
-
 
     skills: [
         {
