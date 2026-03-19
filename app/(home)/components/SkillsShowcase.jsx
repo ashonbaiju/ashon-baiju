@@ -148,7 +148,7 @@ const SkillsShowcase = () => {
               relative 
               rounded-3xl 
               border border-white/20 
-              bg-zinc-900/60
+              bg-black/90
               px-5 py-5 sm:px-7 sm:py-7 md:px-8 md:py-8 
               shadow-[0_10px_40px_rgba(0,0,0,0.8)] 
               overflow-hidden 
@@ -209,7 +209,7 @@ const SkillsShowcase = () => {
             >
               <div
                 className="
-                  bg-black/40
+                  bg-black/80
                   border-white/20
                   border 
                   p-4
@@ -224,7 +224,7 @@ const SkillsShowcase = () => {
                   shadow-lg
                   transition-all duration-300
                   group-hover:border-white/50
-                  group-hover:bg-zinc-900/80
+                  group-hover:bg-black
                   group-hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]
                 "
               >

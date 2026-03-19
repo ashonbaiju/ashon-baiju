@@ -98,3 +98,9 @@ body {
 .group:hover .shiny-sweep {
   animation: shiny-sweep 1s ease-in-out;
 }
+
+/* Minimal transparent gray text selection */
+::selection {
+  background-color: rgba(150, 150, 150, 0.3);
+  color: inherit;
+}

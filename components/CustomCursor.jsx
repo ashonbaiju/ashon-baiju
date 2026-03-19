@@ -45,8 +45,6 @@ const CustomCursor = () => {
     let lastTime = performance.now();
     let prevTime = lastTime;
 
-    let lastScrollY = window.scrollY;
-
     const updatePosition = (x, y) => {
       prevX = lastX;
       prevY = lastY;
@@ -91,33 +89,16 @@ const CustomCursor = () => {
       cursorOpacity.set(1);
     };
 
-    // Scroll float: smooth nudge opposite to scroll direction
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY;
-      lastScrollY = currentScrollY;
-
-      const currentY = cursorY.get();
-
-      // Smaller factor on mobile so it feels subtle, bigger on desktop
-      const floatStrength = isMobile ? 0.25 : 0.45;
-
-      cursorY.set(currentY - delta * floatStrength);
-      cursorOpacity.set(1);
-    };
-
     window.addEventListener("pointermove", handlePointerMove, {
       passive: true,
     });
     window.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("pointerup", handlePointerUp);
-    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("pointerup", handlePointerUp);
-      window.removeEventListener("scroll", handleScroll);
     };
   }, [cursorX, cursorY, cursorOpacity, isMobile]);
 
@@ -140,6 +121,9 @@ const CustomCursor = () => {
     translateX: "-50%",
     translateY: "-50%",
   };
+
+  // Hide entirely on mobile devices
+  if (isMobile) return null;
 
   return (
     <>
