@@ -45,7 +45,7 @@ const cardVariant = {
 // small helper for floating icons
 const FloatingIcon = ({ children, delay = 0 }) => (
   <motion.div
-    className="flex items-center justify-center w-8 h-8 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-md"
+    className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-md"
     animate={{ y: [0, -6, 0] }}
     transition={{
       duration: 3.2,
@@ -93,7 +93,7 @@ const CapabilitiesSection = () => {
           >
             {/* 🌈 Ambient moving light behind card */}
             <motion.div
-              className="pointer-events-none absolute -inset-24 bg-gradient-to-br from-white/6 via-white/0 to-white/8 blur-3xl opacity-70"
+              className="hidden md:block pointer-events-none absolute -inset-24 bg-gradient-to-br from-white/6 via-white/0 to-white/8 blur-3xl opacity-70"
               animate={{ x: [-20, 15, -10], y: [-10, 10, -15] }}
               transition={{
                 duration: 14,
@@ -196,7 +196,7 @@ const CapabilitiesSection = () => {
           >
             {/* 🌈 Ambient moving light behind card */}
             <motion.div
-              className="pointer-events-none absolute -inset-24 bg-gradient-to-bl from-white/6 via-white/0 to-white/8 blur-3xl opacity-70"
+              className="hidden md:block pointer-events-none absolute -inset-24 bg-gradient-to-bl from-white/6 via-white/0 to-white/8 blur-3xl opacity-70"
               animate={{ x: [15, -20, 10], y: [-15, 8, -12] }}
               transition={{
                 duration: 16,

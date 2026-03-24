@@ -31,7 +31,7 @@ const MinimalGlow = () => {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-[-1] overflow-visible"
+      className="hidden md:block pointer-events-none fixed top-0 left-0 z-[-1] overflow-visible"
       style={{
         x: smoothX,
         y: smoothY,

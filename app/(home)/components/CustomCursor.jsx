@@ -126,102 +126,7 @@ const CustomCursor = () => {
 
     // ========== 📱 MOBILE ==========
     if (isMobile) {
-      // Use window for touch events to capture everything
-      const target = window;
-
-      const handleTouchStart = (e) => {
-        if (e.touches.length > 0) {
-          const touch = e.touches[0];
-          activeTouchId.current = touch.identifier;
-          updatePosition(touch.clientX, touch.clientY);
-          e.preventDefault(); // Prevent default to ensure smooth tracking
-        }
-      };
-
-      const handleTouchMove = (e) => {
-        if (activeTouchId.current !== null) {
-          // Find the active touch
-          for (let i = 0; i < e.touches.length; i++) {
-            const touch = e.touches[i];
-            if (touch.identifier === activeTouchId.current) {
-              // This is the key: Update position on EVERY touchmove
-              updatePosition(touch.clientX, touch.clientY);
-              
-              // Optional: Add a tiny glow effect on fast movement
-              const v = velocityInfo.current;
-              const velocity = Math.abs(v.lastX - v.prevX) + Math.abs(v.lastY - v.prevY);
-              if (velocity > 20) {
-                cursorOpacity.set(0.8);
-              }
-              break;
-            }
-          }
-        }
-        // Prevent default to allow smooth scrolling with cursor following
-        e.preventDefault();
-      };
-
-      const handleTouchEnd = (e) => {
-        if (e.touches.length === 0) {
-          activeTouchId.current = null;
-          triggerThrow();
-          
-          // Smooth fade out
-          animate(cursorOpacity, 0, {
-            duration: 0.3,
-            ease: "easeOut"
-          });
-        } else {
-          // If multiple touches, find if our active touch ended
-          for (let i = 0; i < e.changedTouches.length; i++) {
-            const touch = e.changedTouches[i];
-            if (touch.identifier === activeTouchId.current) {
-              activeTouchId.current = null;
-              triggerThrow();
-              
-              // Smooth fade out
-              animate(cursorOpacity, 0, {
-                duration: 0.3,
-                ease: "easeOut"
-              });
-              break;
-            }
-          }
-        }
-      };
-
-      const handleTouchCancel = () => {
-        activeTouchId.current = null;
-        animate(cursorOpacity, 0, {
-          duration: 0.2,
-          ease: "easeOut"
-        });
-      };
-
-      // Use capture phase to ensure we get all touch events
-      target.addEventListener("touchstart", handleTouchStart, { 
-        passive: false, // Non-passive to allow preventDefault
-        capture: true 
-      });
-      target.addEventListener("touchmove", handleTouchMove, { 
-        passive: false, // Non-passive to allow preventDefault
-        capture: true 
-      });
-      target.addEventListener("touchend", handleTouchEnd, { 
-        passive: true,
-        capture: true 
-      });
-      target.addEventListener("touchcancel", handleTouchCancel, { 
-        passive: true,
-        capture: true 
-      });
-
-      return () => {
-        target.removeEventListener("touchstart", handleTouchStart, { capture: true });
-        target.removeEventListener("touchmove", handleTouchMove, { capture: true });
-        target.removeEventListener("touchend", handleTouchEnd, { capture: true });
-        target.removeEventListener("touchcancel", handleTouchCancel, { capture: true });
-      };
+      return; // Disable custom cursor logic entirely on mobile to prevent massive lag
     }
 
     // ========== 💻 DESKTOP ==========
@@ -256,7 +161,7 @@ const CustomCursor = () => {
     };
   }, [mounted, isMobile, updatePosition, triggerThrow, cursorOpacity, cursorY]);
 
-  if (!mounted) return null;
+  if (!mounted || isMobile) return null;
 
   // ------------------------------------------------------------------
   // 🔹 RENDER
@@ -274,72 +179,6 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* 📱 MOBILE: fingertip ring with glow pulse */}
-      {isMobile && (
-        <>
-          {/* Outer glow pulse */}
-          <motion.div
-            animate={{
-              scale: [0.8, 1.2, 0.8],
-              opacity: [0.3, 0.7, 0.3],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              ...baseStyle,
-              x: glowX,
-              y: glowY,
-              width: 85,
-              height: 85,
-            }}
-            className="rounded-full border-2 border-white/50 bg-white/10 mix-blend-difference blur-[2px]"
-          />
-          
-          {/* Main cursor ring */}
-          <motion.div
-            animate={{
-              scale: [0.95, 1.05, 0.95],
-            }}
-            transition={{
-              duration: 0.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              ...baseStyle,
-              x: glowX,
-              y: glowY,
-              width: 50,
-              height: 50,
-            }}
-            className="rounded-full border-2 border-white mix-blend-difference shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-          />
-          
-          {/* Inner dot */}
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              ...baseStyle,
-              x: glowX,
-              y: glowY,
-              width: 12,
-              height: 12,
-            }}
-            className="rounded-full bg-white mix-blend-difference shadow-[0_0_10px_rgba(255,255,255,1)]"
-          />
-        </>
-      )}
-
       {/* 💻 DESKTOP: ambient glow + dot */}
       {!isMobile && (
         <>
