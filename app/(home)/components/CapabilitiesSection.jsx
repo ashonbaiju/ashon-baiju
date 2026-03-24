@@ -45,7 +45,7 @@ const cardVariant = {
 // small helper for floating icons
 const FloatingIcon = ({ children, delay = 0 }) => (
   <motion.div
-    className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
+    className="flex items-center justify-center w-8 h-8 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-md"
     animate={{ y: [0, -6, 0] }}
     transition={{
       duration: 3.2,
@@ -73,7 +73,7 @@ const CapabilitiesSection = () => {
           <p className="text-[12px] tracking-[0.25em] text-zinc-500 uppercase">
             Capabilities
           </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-white">
+          <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
             How I usually contribute
           </h2>
           <p className="text-sm md:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
@@ -87,9 +87,9 @@ const CapabilitiesSection = () => {
           {/* Development card */}
           <motion.div
             variants={cardVariant}
-            className="group relative rounded-3xl border border-white/10
-                       bg-black/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md
-                       shadow-[0_18px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+            className="group relative rounded-3xl border border-foreground/10
+                       bg-background/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md
+                       shadow-lg dark:shadow-[0_18px_60px_rgba(0,0,0,0.8)] overflow-hidden"
           >
             {/* 🌈 Ambient moving light behind card */}
             <motion.div
@@ -108,7 +108,7 @@ const CapabilitiesSection = () => {
             </div>
 
             {/* 🌟 Floating icons (dev side) */}
-            <div className="pointer-events-none absolute right-6 top-6 flex flex-col gap-3 text-white/80">
+            <div className="pointer-events-none absolute right-6 top-6 flex flex-col gap-3 text-foreground/80">
               <FloatingIcon>
                 <HiCode className="w-4 h-4" />
               </FloatingIcon>
@@ -126,7 +126,7 @@ const CapabilitiesSection = () => {
                 <p className="text-[12px] tracking-[0.22em] text-zinc-500 uppercase">
                   Capability
                 </p>
-                <h3 className="text-xl sm:text-2xl font-semibold text-white">
+                <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
                   Development
                 </h3>
                 <p className="text-sm text-zinc-400 leading-relaxed max-w-md">
@@ -135,13 +135,13 @@ const CapabilitiesSection = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-sm text-zinc-200">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-sm text-muted-foreground">
                 {/* Frontend */}
                 <div className="space-y-2">
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Frontend
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>HTML, CSS, JavaScript</li>
                     <li>React basics / Next.js basics</li>
                     <li>Responsive layouts</li>
@@ -153,7 +153,7 @@ const CapabilitiesSection = () => {
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Backend
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Node.js fundamentals</li>
                     <li>API integration</li>
                     <li>Basic MongoDB</li>
@@ -165,7 +165,7 @@ const CapabilitiesSection = () => {
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Tools
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Git & GitHub</li>
                     <li>VS Code</li>
                     <li>Terminal workflow</li>
@@ -177,7 +177,7 @@ const CapabilitiesSection = () => {
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Focus Areas
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Dark UI implementation</li>
                     <li>Smooth animations</li>
                     <li>Component thinking</li>
@@ -190,9 +190,9 @@ const CapabilitiesSection = () => {
           {/* Design card */}
           <motion.div
             variants={cardVariant}
-            className="group relative rounded-3xl border border-white/10
-                       bg-black/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md
-                       shadow-[0_18px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+            className="group relative rounded-3xl border border-foreground/10
+                       bg-background/60 px-8 py-10 sm:px-10 sm:py-12 backdrop-blur-md
+                       shadow-lg dark:shadow-[0_18px_60px_rgba(0,0,0,0.8)] overflow-hidden"
           >
             {/* 🌈 Ambient moving light behind card */}
             <motion.div
@@ -211,7 +211,7 @@ const CapabilitiesSection = () => {
             </div>
 
             {/* 🌟 Floating icons (design side) */}
-            <div className="pointer-events-none absolute right-6 top-6 flex flex-col gap-3 text-white/80">
+            <div className="pointer-events-none absolute right-6 top-6 flex flex-col gap-3 text-foreground/80">
               <FloatingIcon>
                 <PiPaintBrushBroadLight className="w-4 h-4" />
               </FloatingIcon>
@@ -228,7 +228,7 @@ const CapabilitiesSection = () => {
                 <p className="text-[12px] tracking-[0.22em] text-zinc-500 uppercase">
                   Capability
                 </p>
-                <h3 className="text-xl sm:text-2xl font-semibold text-white">
+                <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
                   Design & Branding
                 </h3>
                 <p className="text-sm text-zinc-400 leading-relaxed max-w-md">
@@ -237,12 +237,12 @@ const CapabilitiesSection = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-sm text-zinc-200">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-6 text-sm text-muted-foreground">
                 <div className="space-y-2">
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Visual Design
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Poster design</li>
                     <li>Social media creatives</li>
                     <li>Layout & composition</li>
@@ -264,7 +264,7 @@ const CapabilitiesSection = () => {
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Tools
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Photoshop</li>
                     <li>Figma</li>
                     <li>Canva</li>
@@ -275,7 +275,7 @@ const CapabilitiesSection = () => {
                   <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
                     Focus Areas
                   </p>
-                  <ul className="space-y-2 text-[13px] text-zinc-200">
+                  <ul className="space-y-2 text-[13px] text-foreground/80">
                     <li>Bold typography</li>
                     <li>Dark-themed visuals</li>
                     <li>Ad creatives</li>

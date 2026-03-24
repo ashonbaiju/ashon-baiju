@@ -99,7 +99,7 @@ const skills = [
     name: "GitHub",
     icon: <FaGithub className="w-5 h-5 sm:w-6 sm:h-6" />,
     size: "col-span-1 row-span-1",
-    color: "text-white",
+    color: "text-foreground",
   },
 ];
 
@@ -147,41 +147,41 @@ const SkillsShowcase = () => {
               group 
               relative 
               rounded-3xl 
-              border border-white/20 
-              bg-black/90
+              border border-foreground/20 
+              bg-background/90
               px-5 py-5 sm:px-7 sm:py-7 md:px-8 md:py-8 
-              shadow-[0_10px_40px_rgba(0,0,0,0.8)] 
+              shadow-[0_10px_40px_rgba(0,0,0,0.8)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.8)]
               overflow-hidden 
               backdrop-blur-md
             "
           >
             {/* Shine Animation */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent shiny-sweep" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/10 to-transparent shiny-sweep" />
             </div>
 
             <div className="relative flex flex-col md:flex-row gap-6 items-center md:items-start">
               {/* Image Box */}
-              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-black/40 border border-white/15 flex-shrink-0 relative backdrop-blur-sm shadow-inner">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-foreground/5 dark:bg-black/40 border border-foreground/15 flex-shrink-0 relative backdrop-blur-sm shadow-inner">
                 <Image
                   src="/hero-bg.svg" // Make sure this path is correct
                   alt="Tech stack visual"
                   fill
-                  className="object-contain opacity-80"
+                  className="object-contain opacity-80 dark:invert-0 invert"
                   priority
                 />
               </div>
 
               {/* Text Content */}
               <div className="flex-1 space-y-3 md:space-y-4 text-left">
-                <div className="inline-flex items-center space-x-2 bg-white/10 border border-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                  <HiCode className="w-4 h-4 text-blue-400" />
-                  <span className="text-xs sm:text-sm font-semibold text-blue-100">
+                <div className="inline-flex items-center space-x-2 bg-foreground/5 dark:bg-white/10 border border-foreground/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <HiCode className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+                  <span className="text-xs sm:text-sm font-semibold text-blue-800 dark:text-blue-100">
                     High-Level Overview
                   </span>
                 </div>
 
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground">
                   My Tech Arsenal
                 </h2>
                 <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl">
@@ -211,8 +211,8 @@ const SkillsShowcase = () => {
             >
               <div
                 className="
-                  bg-black
-                  border-white/30
+                  bg-background
+                  border-foreground/30
                   border 
                   p-4
                   rounded-2xl
@@ -223,20 +223,20 @@ const SkillsShowcase = () => {
                   w-full
                   flex flex-col items-center justify-center
                   box-border
-                  shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_10px_rgba(255,255,255,0.05)]
+                  shadow-[0_4px_6px_rgba(0,0,0,0.05),0_0_10px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_10px_rgba(255,255,255,0.05)]
                   transition-all duration-300
-                  group-hover:border-white/60
-                  group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
+                  group-hover:border-foreground/60
+                  group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.1),0_0_20px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
                 "
               >
                 {/* shiny overlay from Open Source Projects */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shiny-sweep" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/20 to-transparent shiny-sweep" />
                 </div>
 
                 {/* glossy top shine from Open Source Projects */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none">
-                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-2xl" />
+                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-foreground/40 to-transparent rounded-t-2xl" />
                 </div>
 
                 <div className="relative flex flex-col items-center gap-3 z-10 text-center">
@@ -244,7 +244,7 @@ const SkillsShowcase = () => {
                   {/* Icon Container */}
                   <div className={`
                     p-3 rounded-xl 
-                    bg-white/5 border border-white/10 
+                    bg-foreground/5 border border-foreground/10 
                     shadow-inner
                     transition-transform duration-300
                     group-hover:scale-110
@@ -256,7 +256,7 @@ const SkillsShowcase = () => {
 
                   {/* Skill Text */}
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-sm sm:text-base font-semibold text-zinc-300 group-hover:text-white transition-colors duration-300">
+                    <span className="text-sm sm:text-base font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                       {skill.name}
                     </span>
                     {/* Optional Description for larger boxes */}

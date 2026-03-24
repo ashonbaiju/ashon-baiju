@@ -49,8 +49,8 @@ const ExperienceSection = () => {
         {/* Heading */}
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
-            <span className="block text-zinc-100">My career &</span>
-            <span className="block bg-gradient-to-r from-white via-white/80 to-white/60 bg-clip-text text-transparent">
+            <span className="block text-foreground">My career &</span>
+            <span className="block bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
               experience
             </span>
           </h2>
@@ -73,7 +73,7 @@ const ExperienceSection = () => {
           <div
             className="
               absolute top-0 bottom-0 w-px
-              bg-gradient-to-b from-transparent via-zinc-800 to-transparent
+              bg-gradient-to-b from-transparent via-foreground/20 dark:via-zinc-800 to-transparent
               left-4 translate-x-0
               md:left-1/2 md:-translate-x-1/2
             "
@@ -87,15 +87,15 @@ const ExperienceSection = () => {
             }}
             className="
               absolute top-0 w-[2px]
-              bg-gradient-to-b from-transparent via-white to-transparent
-              shadow-[0_0_15px_rgba(255,255,255,0.5)] z-10
+              bg-gradient-to-b from-transparent via-foreground to-transparent
+              shadow-[0_0_15px_rgba(0,0,0,0.5)] dark:shadow-[0_0_15px_rgba(255,255,255,0.5)] z-10
               left-[15px] translate-x-0
               md:left-1/2 md:-translate-x-1/2
             "
           >
             {/* Glowing dot at bottom */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-white rounded-full blur-[6px]" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-white rounded-full" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-foreground rounded-full blur-[6px]" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-foreground rounded-full" />
           </motion.div>
 
           {/* 3. EXPERIENCE ITEMS */}
@@ -107,19 +107,19 @@ const ExperienceSection = () => {
                   index === 0 ? "pt-0" : ""
                 }`}
               >
-                <h3 className="text-2xl font-semibold text-zinc-100">
+                <h3 className="text-2xl font-semibold text-foreground">
                   {exp.role}
                 </h3>
-                <p className="text-zinc-400 mt-1 text-sm">{exp.company}</p>
-                <p className="text-xs text-zinc-500 uppercase tracking-widest mt-2 font-medium">
+                <p className="text-muted-foreground mt-1 text-sm">{exp.company}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest mt-2 font-medium">
                   {exp.period}
                 </p>
               </div>
 
               {/* CENTER DOT (only on desktop) */}
               <div className="hidden md:flex flex-col items-center justify-center py-10 relative">
-                <div className="w-3 h-3 rounded-full border border-zinc-700 bg-zinc-900 z-20 relative">
-                  <div className="absolute inset-0 bg-white/20 rounded-full blur-sm"></div>
+                <div className="w-3 h-3 rounded-full border border-foreground/20 bg-background dark:border-zinc-700 dark:bg-zinc-900 z-20 relative">
+                  <div className="absolute inset-0 bg-foreground/20 rounded-full blur-sm"></div>
                 </div>
               </div>
 
@@ -129,7 +129,7 @@ const ExperienceSection = () => {
                   index === 0 ? "pt-0" : ""
                 }`}
               >
-                <p className="text-zinc-300 leading-relaxed text-sm md:text-base">
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
                   {exp.description}
                 </p>
               </div>

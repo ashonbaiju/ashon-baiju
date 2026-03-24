@@ -133,8 +133,8 @@ const ProjectCard = ({ project, size }) => {
     >
       <div
         className="
-          bg-black
-          border-white/30
+          bg-background
+          border-foreground/30
           border 
           p-3 sm:p-4 md:p-5
           rounded-xl sm:rounded-2xl
@@ -147,29 +147,29 @@ const ProjectCard = ({ project, size }) => {
           flex flex-col
           shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_10px_rgba(255,255,255,0.05)]
           transition-all duration-300
-          group-hover:border-white/60
-          group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
+          group-hover:border-foreground/60
+          group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.1),0_0_20px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_4px_6px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.1)]
         "
       >
         {/* shiny overlay */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shiny-sweep" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/20 to-transparent shiny-sweep" />
         </div>
 
         {/* glossy top shine */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-          <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-2xl" />
+          <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-foreground/40 to-transparent rounded-t-2xl" />
         </div>
 
         <div className="relative flex flex-col gap-2 sm:gap-3 w-full z-10 h-full justify-between">
           <div className="flex flex-col gap-2 sm:gap-3">
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center space-x-1.5 sm:space-x-2 flex-1 min-w-0">
-                <FaGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white flex-shrink-0" />
+                <FaGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-foreground flex-shrink-0" />
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <h3 className="font-bold text-white text-[10px] sm:text-xs md:text-sm truncate">
+                      <h3 className="font-bold text-foreground text-[10px] sm:text-xs md:text-sm truncate">
                         {project.name}
                       </h3>
                     </TooltipTrigger>
@@ -179,10 +179,10 @@ const ProjectCard = ({ project, size }) => {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <HiExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white/60 group-hover:text-white transition-colors flex-shrink-0" />
+              <HiExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-muted-foreground group-hover:text-foreground transition-colors flex-shrink-0" />
             </div>
 
-            <p className="text-[10px] sm:text-xs text-white/70 line-clamp-2 sm:line-clamp-3 leading-relaxed">
+            <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 sm:line-clamp-3 leading-relaxed">
               {project.description || "No description provided"}
             </p>
           </div>
@@ -195,13 +195,13 @@ const ProjectCard = ({ project, size }) => {
                   .map((topic) => (
                     <span
                       key={topic}
-                      className="text-[9px] sm:text-[10px] md:text-xs bg-white/10 text-white px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full border border-white/20"
+                      className="text-[9px] sm:text-[10px] md:text-xs bg-foreground/5 text-foreground px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full border border-foreground/20"
                     >
                       {topic}
                     </span>
                   ))}
                 {topics.length > (size.includes("row-span-2") ? 3 : 2) && (
-                  <span className="text-[9px] sm:text-[10px] text-white/50">
+                  <span className="text-[9px] sm:text-[10px] text-muted-foreground">
                     +{topics.length - (size.includes("row-span-2") ? 3 : 2)}
                   </span>
                 )}
@@ -218,20 +218,20 @@ const ProjectCard = ({ project, size }) => {
                         languageColors[project.language] || "#ccc",
                     }}
                   />
-                  <span className="text-[9px] sm:text-[10px] md:text-xs text-white/70">
+                  <span className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground">
                     {project.language}
                   </span>
                 </div>
               )}
               <div className="flex items-center space-x-0.5 sm:space-x-1">
-                <FaStar className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-white/70" />
-                <span className="text-[9px] sm:text-[10px] md:text-xs text-white/70">
+                <FaStar className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-muted-foreground" />
+                <span className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground">
                   {project.stargazers_count}
                 </span>
               </div>
               <div className="flex items-center space-x-0.5 sm:space-x-1">
-                <FaCodeBranch className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-white/70" />
-                <span className="text-[9px] sm:text-[10px] md:text-xs text-white/70">
+                <FaCodeBranch className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-muted-foreground" />
+                <span className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground">
                   {project.forks_count}
                 </span>
               </div>
@@ -259,7 +259,7 @@ const GithubProjects = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center space-x-2 bg-secondary/10 border-[1.8px] border-zinc-900/70 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-primary backdrop-blur-sm shadow-lg"
+                className="inline-flex items-center space-x-2 bg-secondary/10 border-[1.8px] border-zinc-300 dark:border-zinc-900/70 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-foreground/80 dark:text-primary backdrop-blur-sm shadow-lg"
               >
                 <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="text-xs sm:text-sm font-semibold">

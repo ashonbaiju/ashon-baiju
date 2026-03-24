@@ -57,7 +57,7 @@ const HeroSection = () => {
         >
           <motion.div
             variants={itemAnimation}
-            className="inline-flex items-center space-x-2 bg-secondary/10 border-[1.8px] border-zinc-900/70 px-4 py-2 rounded-full text-primary backdrop-blur-sm"
+            className="inline-flex items-center space-x-2 bg-secondary/10 border-[1.8px] border-zinc-300 dark:border-zinc-900/70 px-4 py-2 rounded-full text-foreground/80 dark:text-primary backdrop-blur-sm"
           >
             <HiCode className="w-5 h-5" />
             <span className="text-sm font-medium">Welcome to my portfolio</span>
@@ -76,7 +76,7 @@ const HeroSection = () => {
               </motion.span>
               <motion.span
                 variants={textAnimation}
-                className="block text-white/60 text-2xl md:text-4xl"
+                className="block text-foreground/60 text-2xl md:text-4xl"
               >
 Developer | Designer               </motion.span>
             </motion.h1>

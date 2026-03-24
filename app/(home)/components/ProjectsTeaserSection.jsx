@@ -78,7 +78,7 @@ const ProjectsTeaserSection = () => {
           </p>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div className="space-y-2">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground">
                 Selected work & experiments
               </h2>
               <p className="text-sm md:text-base text-zinc-400 max-w-xl md:max-w-2xl leading-relaxed">
@@ -93,7 +93,7 @@ const ProjectsTeaserSection = () => {
                 <motion.button
                   whileHover={{ scale: 1.03, y: -1 }}
                   whileTap={{ scale: 0.97, y: 0 }}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium text-white tracking-wide backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all"
+                  className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-foreground/5 px-4 py-2 text-xs sm:text-sm font-medium text-foreground tracking-wide backdrop-blur-md hover:bg-foreground/10 hover:border-foreground/30 transition-all"
                 >
                   <span>View all projects</span>
                   <span className="text-[16px] leading-none">↗</span>
@@ -117,7 +117,7 @@ const ProjectsTeaserSection = () => {
               variants={item}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative h-full rounded-2xl border border-white/10 bg-black/60 px-5 py-6 sm:px-6 sm:py-7 shadow-[0_18px_50px_rgba(0,0,0,0.75)] backdrop-blur-md overflow-hidden flex flex-col cursor-pointer hover:border-white/30 hover:bg-black/80 transition-all duration-300"
+              className="group relative h-full rounded-2xl border border-foreground/10 bg-background/60 px-5 py-6 sm:px-6 sm:py-7 shadow-lg dark:shadow-[0_18px_50px_rgba(0,0,0,0.75)] backdrop-blur-md overflow-hidden flex flex-col cursor-pointer hover:border-foreground/30 hover:bg-background/80 transition-all duration-300"
             >
               {/* subtle hover glow */}
               <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -128,7 +128,7 @@ const ProjectsTeaserSection = () => {
                 <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500">
                   {project.type}
                 </p>
-                <h3 className="text-lg sm:text-xl font-semibold text-white">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground">
                   {project.title}
                 </h3>
                 <p className="text-sm text-zinc-400 leading-relaxed">
@@ -141,7 +141,7 @@ const ProjectsTeaserSection = () => {
                 {project.tech.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-zinc-200 tracking-wide"
+                    className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1 text-[11px] text-foreground/80 tracking-wide"
                   >
                     {t}
                   </span>
@@ -165,7 +165,7 @@ const ProjectsTeaserSection = () => {
           className="mt-8 flex justify-center md:hidden"
         >
           <Link href="/projects">
-            <button className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-medium text-white tracking-wide backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all">
+            <button className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-foreground/5 px-5 py-2.5 text-xs font-medium text-foreground tracking-wide backdrop-blur-md hover:bg-foreground/10 hover:border-foreground/30 transition-all">
               <span>View all projects</span>
               <span className="text-[16px] leading-none">↗</span>
             </button>

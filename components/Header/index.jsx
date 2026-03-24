@@ -6,6 +6,7 @@ import { config } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = config.NAV_ITEMS;
@@ -20,7 +21,7 @@ const NavLink = ({ href, label, isMobile = false }) => {
             className="relative"
         >
             <motion.span
-                className={`relative ${isMobile ? 'px-4 py-3 text-base' : 'px-4 py-2'} text-gray-300 hover:text-white transition-colors ${isActive ? 'text-white' : ''}`}
+                className={`relative ${isMobile ? 'px-4 py-3 text-base' : 'px-4 py-2'} text-muted-foreground hover:text-foreground transition-colors ${isActive ? 'text-foreground font-medium' : ''}`}
                 whileHover={{ scale: isMobile ? 1 : 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
@@ -65,16 +66,16 @@ const Logo = ({ isMobile = false }) => (
                     width={2000}
                     height={2000}
                     alt='logo'
-                    className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12 sm:w-14 sm:h-14'} rounded-full`}
+                    className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12 sm:w-14 sm:h-14'} rounded-full dark:invert-0 invert`}
                 />
             </motion.div>
             <motion.span
-                className={`text-gray-300 font-semibold ${isMobile ? 'hidden' : 'text-base sm:text-lg'}`}
+                className={`text-muted-foreground font-semibold ${isMobile ? 'hidden' : 'text-base sm:text-lg'}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
             >
-                <span className="hidden sm:inline">{config.developer.name} | developer</span>
+                <span className="hidden sm:inline text-foreground">{config.developer.name}</span> <span className="hidden sm:inline">| developer</span>
                 {/* <span className="sm:hidden">{config.developer.name}</span> */}
             </motion.span>
         </Link>
@@ -111,7 +112,7 @@ const ContactButton = ({ isMobile = false, onLinkClick }) => (
         onClick={onLinkClick}
     >
         <Link href={"https://github.com/ashonbaiju/"} target='_blank' className={isMobile ? 'w-full' : ''}>
-            <Button className={`${isMobile ? 'w-full' : ''} rounded-2xl font-semibold bg-white text-gray-900 hover:bg-gray-200 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3`}>
+            <Button className={`${isMobile ? 'w-full' : ''} rounded-2xl font-semibold bg-foreground text-background hover:bg-foreground/80 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3`}>
                 <span className="hidden sm:inline">Repo Inside!</span>
                 <span className="sm:hidden">Template</span>
             </Button>
@@ -133,7 +134,7 @@ const Header = () => {
     return (
         <>
             <motion.header
-                className="py-4 sm:py-6 md:py-9 z-50 text-white"
+                className="py-4 sm:py-6 md:py-9 z-50 text-foreground"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -141,22 +142,26 @@ const Header = () => {
                 <div className="container mx-auto flex items-center justify-between md:px-64 px-4 sm:px-6">
                     <Logo />
                     <Navigation />
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex items-center gap-4">
+                        <ThemeToggle />
                         <ContactButton />
                     </div>
                     
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={toggleMobileMenu}
-                        className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
-                        aria-label="Toggle menu"
-                    >
+                    {/* Mobile Menu & Theme Button */}
+                    <div className="flex items-center gap-3 md:hidden">
+                        <ThemeToggle />
+                        <button
+                            onClick={toggleMobileMenu}
+                            className="p-2 text-gray-300 hover:text-white transition-colors dark:text-gray-300 dark:hover:text-white"
+                            aria-label="Toggle menu"
+                        >
                         {isMobileMenuOpen ? (
                             <HiX className="w-6 h-6" />
                         ) : (
                             <HiMenu className="w-6 h-6" />
                         )}
-                    </button>
+                        </button>
+                    </div>
                 </div>
             </motion.header>
 
@@ -180,7 +185,7 @@ const Header = () => {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 h-full w-64 bg-black/95 backdrop-blur-md border-l border-white/10 z-50 md:hidden overflow-y-auto"
+                            className="fixed top-0 right-0 h-full w-64 bg-background/95 backdrop-blur-md border-l border-foreground/10 z-50 md:hidden overflow-y-auto"
                         >
                             <div className="flex flex-col h-full p-6">
                                 {/* Mobile Logo */}
