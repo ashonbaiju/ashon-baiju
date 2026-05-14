@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import GridPattern from "@/components/ui/grid-pattern";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/Providers/Theme";
@@ -29,7 +30,6 @@ export const metadata = {
   robots: "index, follow",
 };
 
-// optional but good: make viewport explicit
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -57,6 +57,7 @@ export default function RootLayout({ children }) {
           </main>
 
           <Footer />
+
           <Toaster
             position="top-right"
             toastOptions={{
@@ -76,6 +77,8 @@ export default function RootLayout({ children }) {
               "[mask-image:linear-gradient(to_bottom,white,transparent)]"
             )}
           />
+
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
