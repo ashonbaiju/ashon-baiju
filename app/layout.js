@@ -11,7 +11,6 @@ import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
 import CustomCursor from "@/components/CustomCursor";
 import MinimalGlow from "@/components/MinimalGlow";
-import type { Metadata, Viewport } from "next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,7 +18,7 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL("https://ashon-baiju.vercel.app"),
 
   title: {
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Ashon Baiju is a full stack developer specializing in modern web technologies. Explore his projects, technical skills, and experience.",
+    "Ashon Baiju is a full stack developer specializing in modern web technologies. Explore projects, technical skills, and experience.",
 
   applicationName: "Ashon Baiju Portfolio",
 
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
     siteName: "Ashon Baiju Portfolio",
     title: "Ashon Baiju | Full Stack Developer",
     description:
-      "Explore Ashon Baiju's portfolio, projects, technical skills, and experience.",
+      "Explore Ashon Baiju's portfolio, projects, skills, and experience.",
     images: [
       {
         url: "/logo.png",
@@ -94,16 +93,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+export const viewport = {
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
