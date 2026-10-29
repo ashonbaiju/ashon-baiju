@@ -1,3 +1,4 @@
+
 import localFont from "next/font/local";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -10,6 +11,7 @@ import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
 import CustomCursor from "@/components/CustomCursor";
 import MinimalGlow from "@/components/MinimalGlow";
+import type { Metadata, Viewport } from "next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,25 +19,91 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-export const metadata = {
-  title: "Ashon Baiju",
+export const metadata: Metadata = {
+  metadataBase: new URL("https://ashon-baiju.vercel.app"),
+
+  title: {
+    default: "Ashon Baiju | Full Stack Developer",
+    template: "%s | Ashon Baiju",
+  },
+
+  description:
+    "Ashon Baiju is a full stack developer specializing in modern web technologies. Explore his projects, technical skills, and experience.",
+
+  applicationName: "Ashon Baiju Portfolio",
+
+  authors: [{ name: "Ashon Baiju" }],
+  creator: "Ashon Baiju",
+  publisher: "Ashon Baiju",
+
+  keywords: [
+    "Ashon Baiju",
+    "Ashon Baiju portfolio",
+    "Full Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Web Developer",
+    "React",
+    "Next.js",
+    "JavaScript",
+    "Node.js",
+    "Web Development",
+  ],
+
+  alternates: {
+    canonical: "/",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  openGraph: {
+    type: "website",
+    url: "https://ashon-baiju.vercel.app/",
+    siteName: "Ashon Baiju Portfolio",
+    title: "Ashon Baiju | Full Stack Developer",
+    description:
+      "Explore Ashon Baiju's portfolio, projects, technical skills, and experience.",
+    images: [
+      {
+        url: "/logo.png",
+        alt: "Ashon Baiju portfolio logo",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary",
+    title: "Ashon Baiju | Full Stack Developer",
+    description:
+      "Explore Ashon Baiju's portfolio, projects, skills, and experience.",
+    images: ["/logo.png"],
+  },
+
   icons: {
     icon: "/logo.png",
   },
-  description:
-    "Experienced fullstack developer specializing in modern web technologies. View my projects, skills, and experience.",
-  keywords:
-    "fullstack developer,backend developer, frontend developer, web development, JavaScript,JS, C#, CSharp, React, Node.js, portfolio",
-  author: "Huzaif Ahmed",
-  robots: "index, follow",
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -50,6 +118,7 @@ export default function RootLayout({ children }) {
           <CustomCursor />
 
           <NextTopLoader />
+
           <Header />
 
           <main className="w-full min-h-screen overflow-x-hidden">
