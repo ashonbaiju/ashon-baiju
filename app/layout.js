@@ -35,6 +35,10 @@ export const metadata = {
   creator: "Ashon Baiju",
   publisher: "Ashon Baiju",
 
+  verification: {
+    google: "of4VbwPw6NYJ-PBBnxA3vxxckKWGFjFCaWbE1Rtrzrw",
+  },
+
   keywords: [
     "Ashon Baiju",
     "Ashon Baiju portfolio",
