@@ -36,7 +36,7 @@ export const metadata = {
   publisher: "Ashon Baiju",
 
   verification: {
-    google: "of4VbwPw6NYJ-PBBnxA3vxxckKWGFjFCaWbE1Rtrzrw",
+    google: "AP2OEOvaTH03gPvTrE8DIywtw6OrbBFsbltyRddMNeE",
   },
 
   keywords: [
